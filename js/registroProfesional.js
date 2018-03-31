@@ -15,6 +15,7 @@ $(function() {
         weekdaysFull: [ 'Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado' ],
         weekdaysShort: [ 'Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab' ],
         weekdaysLetter: [ 'D', 'L', 'M', 'X', 'J', 'V', 'S' ],
-        firstDay: true
+        firstDay: true,
+        format: 'yyyy-mm-dd'
       });
 });

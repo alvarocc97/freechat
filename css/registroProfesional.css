@@ -21,6 +21,10 @@ form>div {
     background-color:rgb(160, 43, 170);
 }
 
+.btn:hover {
+    background-color: rgb(163, 86, 170);
+}
+
 input[type=text]:not(.browser-default):focus:not([readonly]),
 input[type=password]:not(.browser-default):focus:not([readonly]),
 input[type=email]:not(.browser-default):focus:not([readonly]) {
