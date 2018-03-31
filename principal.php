@@ -10,13 +10,25 @@
     <script src="js/materialize.js"></script>
     <script src="js/principal.js"></script>
     <link href="css/principal.css" rel="stylesheet">
-    <?php session_start();
-        $nombreUsuario=$_SESSION["nombreUsuario"];
-        require "php/conexion.php";
-        $resultadoImagen=$conexion->query("SELECT imagen FROM usuarios WHERE nombre='$nombreUsuario'");
-        $filaImagen=$resultadoImagen->fetch_row();
-        $imagenUsuario=$filaImagen[0];
-        $conexion->close();
+    <?php
+        session_start();
+        if(isset($_SESSION["dniProfesional"])) {
+            $dniCod=base64_encode($_SESSION["dniProfesional"]);
+            require "php/conexion.php";
+            $resultado=$conexion->query("SELECT nombre,email,imagen FROM profesionales WHERE dni='$dniCod'");
+            $fila=$resultado->fetch_row();
+            $nombreUsuario=$fila[0];
+            $emailUsuario=$fila[1];
+            $imagenUsuario=$fila[2];
+            $conexion->close();
+        } else {
+            $nombreUsuario=$_SESSION["nombreUsuario"];
+            require "php/conexion.php";
+            $resultadoImagen=$conexion->query("SELECT imagen FROM usuarios WHERE nombre='$nombreUsuario'");
+            $filaImagen=$resultadoImagen->fetch_row();
+            $imagenUsuario=$filaImagen[0];
+            $conexion->close();
+        }
     ?>
     <title><?php echo $nombreUsuario; ?></title>
 </head>
@@ -27,8 +39,18 @@
                 <img src="img/fondoEncabezado.jpg">
             </div>
             <a href="#" id="imagenUsuario"><img class="circle" src="<?php echo $imagenUsuario; ?>"></a>
-            <a href="#!name"><span class="white-text name"><?php echo $nombreUsuario; ?></span></a>
-            <a href="#!email"><span class="white-text email">prueba@alvaro.com</span></a>
+            <?php
+                if(isset($_SESSION["dniProfesional"])) {
+                    ?>
+                     <a href="#!name"><span class="white-text name"><?php echo $nombreUsuario; ?><img id="profesionalStick" src="img/profesionalStick.png"></span></a>
+                    <a href="#!email"><span class="white-text email"><?php echo $emailUsuario; ?></span></a>
+                    <?php
+                } else {
+                    ?>
+                     <a href="#!name"><span class="white-text name"><?php echo $nombreUsuario; ?></span></a>
+                    <?php
+                }
+            ?>
         </div></li>
         <li><div class="center-align" id="tituloConectados">Usuarios conectados</div></li>
         <?php

@@ -1,7 +1,9 @@
 $(function() {
     $('.datepicker').pickadate({
         selectMonths: true,
-        selectYears: 15,
+        selectYears: 100,
+        min: [1900,1,1],
+        max: new Date(),
         today: 'Hoy',
         clear: 'Limpiar',
         close: 'Aceptar',
@@ -18,4 +20,7 @@ $(function() {
         firstDay: true,
         format: 'yyyy-mm-dd'
       });
+
+      $("#dialogoClavesIncorrectas,#dialogoCaptchaIncorrecto,#dialogoFormatoDNIIncorrecto,#dialogoDNIIncorrecto,#dialogoEmailIncorrecto,#dialogoProfesionalExistente,#dialogoProfesionalRegistrado").modal();
+      $("#disparador1,#disparador2,#disparador3,#disparador4,#disparador5,#disparador6,#disparador7").hide().click();
 });

@@ -68,6 +68,21 @@ input[type=email]:not(.browser-default):focus:not([readonly]) {
     color:rgb(238, 188, 245);
 }
 
+.modal-content h4 {
+    color:rgb(238, 188, 245);
+}
+
+.modal-footer button {
+    color:rgb(238, 188, 245);
+}
+
+.waves-effect.waves-dialogo .waves-ripple {
+    background-color:rgb(160, 43, 170);
+}
+
+#profesionalStick {
+    width: 1em;
+}
 
 
 

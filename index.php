@@ -32,7 +32,7 @@
         </div>
         <div id="autenticacion">
             <form id="autenticacionForm" action="index.php" method="post">
-                <input type="text" id="usuarioAut" name="usuarioAut" size="20" maxlength="50" placeholder="Usuario" required title="Ingresa aquí tu nombre de usuario">
+                <input type="text" id="usuarioAut" name="usuarioAut" size="20" maxlength="50" placeholder="Usuario/DNI" required title="Ingresa aquí tu nombre de usuario o tu DNI si estás registrado/a como profesional">
                 <input type="password" id="claveAut" name="claveAut" size="20" maxlength="50" placeholder="Clave" required title="Ingresa aquí tu clave de usuario">
                 <input type="submit" id="entrarAut" name="entrarAut" value="Entrar">
             </form>
@@ -122,23 +122,47 @@
             $semilla="fth34bP1Qx";
             $claveHash=sha1(md5($semilla.$claveAut));
 
-            require "php/conexion.php";
-            $sql="SELECT nombre FROM usuarios WHERE nombre='$usuarioAut' AND clave='$claveHash'";
-            $resultado=$conexion->query($sql);
-            $resultadoFilas=$resultado->num_rows;
-            if($resultadoFilas==0) {
-                $conexion->close();
-                ?>
-                <div id="datosIncorrectos" title="Datos incorrectos">
-                    <p>El usuario o la contraseña son incorrectos. Revísalo y vuelve a intentarlo.</p>
-                </div>
-                <?php
+            if(preg_match("/^[0-9]{8}-[TRWAGMYFPDXBNJZSQVHLCKE]$/i",$usuarioAut)) {
+                $dniCod=base64_encode($usuarioAut);
+                require "php/conexion.php";
+                $sql="SELECT dni FROM profesionales WHERE dni='$dniCod' AND clave='$claveHash'";
+                $resultado=$conexion->query($sql);
+                $resultadoFilas=$resultado->num_rows;
+                if($resultadoFilas==0) {
+                    $conexion->close();
+                    ?>
+                    <div id="datosIncorrectos" title="Datos incorrectos">
+                        <p>El usuario o la contraseña son incorrectos. Revísalo y vuelve a intentarlo.</p>
+                    </div>
+                    <?php
+                } else {
+                    $conexion->query("UPDATE profesionales SET conectado='S' WHERE dni='$dniCod'");
+                    $conexion->close();
+                    $_SESSION["dniProfesional"]=$usuarioAut;
+                    header("Location: principal.php");
+                }
             } else {
-                $conexion->query("UPDATE usuarios SET conectado='S' WHERE nombre='$usuarioAut'");
-                $conexion->close();
-                $_SESSION["nombreUsuario"]=$usuarioAut;
-                header("Location: principal.php");
+                require "php/conexion.php";
+                $sql="SELECT nombre FROM usuarios WHERE nombre='$usuarioAut' AND clave='$claveHash'";
+                $resultado=$conexion->query($sql);
+                $resultadoFilas=$resultado->num_rows;
+                if($resultadoFilas==0) {
+                    $conexion->close();
+                    ?>
+                    <div id="datosIncorrectos" title="Datos incorrectos">
+                        <p>El usuario o la contraseña son incorrectos. Revísalo y vuelve a intentarlo.</p>
+                    </div>
+                    <?php
+                } else {
+                    $conexion->query("UPDATE usuarios SET conectado='S' WHERE nombre='$usuarioAut'");
+                    $conexion->close();
+                    $_SESSION["nombreUsuario"]=$usuarioAut;
+                    unset($_SESSION["dniProfesional"]);
+                    header("Location: principal.php");
+                }
             }
+
+            
         }
     ?>
 </body>

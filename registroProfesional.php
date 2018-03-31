@@ -96,7 +96,120 @@
             $cadenaCaptcha=$_POST["cadenaCaptcha"];
             $captcha=$_POST["captcha"];
 
-            
+            if($clave==$clave2) {
+                if($cadenaCaptcha==$captcha) {
+                    if(preg_match("/^[0-9]{8}-[TRWAGMYFPDXBNJZSQVHLCKE]$/i",$dni)) {
+                        require_once "php/validaciones.php";
+                        if(calcularLetra($dni)==substr($dni,-1)) {
+                            if(preg_match("/^[A-z0-9\\._-]+@[A-z0-9][A-z0-9-]*(\\.[A-z0-9_-]+)*\\.([A-z]{2,10})$/",$email)) {
+                                require "php/conexion.php";
+                                $sql="SELECT dni FROM profesionales WHERE dni='$dni'";
+                                $resultado=$conexion->query($sql);
+                                $resultadoFilas=$resultado->num_rows;
+                                if($resultadoFilas==0) {
+                                    $semilla="fth34bP1Qx";
+                                    $claveHash=sha1(md5($semilla.$clave));
+                                    $dniCodificado=base64_encode($dni);
+                                    $sql="INSERT INTO profesionales (dni,nombre,apellidos,email,clave,fechaNacimiento,colegioPsico,imagen,conectado) VALUES ('$dniCodificado','$nombre','$apellidos','$email','$claveHash','$fechaNacimiento','$colegioPsico','img/fondoUsuario.jpg','N')";
+                                    $conexion->query($sql);
+                                    $conexion->close();
+                                    ?>
+                                    <button data-target="dialogoProfesionalRegistrado" class="btn modal-trigger" id="disparador7"></button>
+                                    <div id="dialogoProfesionalRegistrado" class="modal">
+                                        <div class="modal-content">
+                                            <h4>Te has registrado como profesional</h4>
+                                            <p>Te has registrado correctamente como profesional. Cuando estés conectado/a, tras tu nombre aparecerá este símbolo que confirma que eres un/una profesional verificado/a: <img id="profesionalStick" src="img/profesionalStick.png"></p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="modal-action modal-close waves-effect waves-dialogo btn-flat">CERRAR</button>
+                                        </div>
+                                    </div>
+                                    <?php
+                                } else {
+                                    $conexion->close();
+                                    ?>
+                                    <button data-target="dialogoProfesionalExistente" class="btn modal-trigger" id="disparador6"></button>
+                                    <div id="dialogoProfesionalExistente" class="modal">
+                                        <div class="modal-content">
+                                            <h4>Ya estabas registrado/a como profesional</h4>
+                                            <p>Ya existe en nuestras bases de datos un profesional con ese DNI. Por favor, inicie sesión o inténtelo de nuevo.</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="modal-action modal-close waves-effect waves-dialogo btn-flat">CERRAR</button>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
+                            } else {
+                                ?>
+                                <button data-target="dialogoEmailIncorrecto" class="btn modal-trigger" id="disparador5"></button>
+                                <div id="dialogoEmailIncorrecto" class="modal">
+                                    <div class="modal-content">
+                                        <h4>Formato de email incorrecto</h4>
+                                        <p>El formato del email introducido no es válido. Por favor, usa el formato <b>nombre@subdominio.dominio</b>.</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="modal-action modal-close waves-effect waves-dialogo btn-flat">CERRAR</button>
+                                    </div>
+                                </div>
+                                <?php
+                            }
+                        } else {
+                            ?>
+                            <button data-target="dialogoDNIIncorrecto" class="btn modal-trigger" id="disparador4"></button>
+                            <div id="dialogoDNIIncorrecto" class="modal">
+                                <div class="modal-content">
+                                    <h4>DNI incorrecto</h4>
+                                    <p>El DNI introducido no es correcto. Por favor, vuelve a intentarlo.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="modal-action modal-close waves-effect waves-dialogo btn-flat">CERRAR</button>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    } else {
+                        ?>
+                        <button data-target="dialogoFormatoDNIIncorrecto" class="btn modal-trigger" id="disparador3"></button>
+                        <div id="dialogoFormatoDNIIncorrecto" class="modal">
+                            <div class="modal-content">
+                                <h4>Formato del DNI incorrecto</h4>
+                                <p>El formato de DNI introducido no es válido. Por favor, usa el formato <b>00000000-A</b>.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="modal-action modal-close waves-effect waves-dialogo btn-flat">CERRAR</button>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                } else {
+                    ?>
+                    <button data-target="dialogoCaptchaIncorrecto" class="btn modal-trigger" id="disparador2"></button>
+                    <div id="dialogoCaptchaIncorrecto" class="modal">
+                        <div class="modal-content">
+                            <h4>Captcha incorrecto</h4>
+                            <p>El captcha introducido es incorrecto. Por favor, vuelve a intentarlo.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="modal-action modal-close waves-effect waves-dialogo btn-flat">CERRAR</button>
+                        </div>
+                    </div>
+                    <?php
+                }
+            } else {
+                ?>
+                <button data-target="dialogoClavesIncorrectas" class="btn modal-trigger" id="disparador1"></button>
+                <div id="dialogoClavesIncorrectas" class="modal">
+                    <div class="modal-content">
+                        <h4>Las claves no coinciden</h4>
+                        <p>Las claves introducidas no son iguales. Por favor, vuelve a intentarlo.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="modal-action modal-close waves-effect waves-dialogo btn-flat">CERRAR</button>
+                    </div>
+                </div>
+                <?php
+            }
         }
     ?>
 </body>
