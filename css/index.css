@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100');
+
+* {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body {
+    background:linear-gradient(white,rgb(97, 97, 97)) fixed;
+    font-family:"Roboto",sans-serif;
+}
+
+header {
+    width:100%;
+    height:8vh;
+    background-color:rgb(160, 43, 170);
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+}
+
+#usuarioAut,#claveAut {
+    height:3em;
+    width:15em;
+    border-radius:10px;
+    padding:0.5em;
+    border:none;
+}
+
+#usuarioAut {
+    margin-right:1em;
+}
+
+#entrarAut {
+    border-radius:10px;
+    height:2.5em;
+    margin-left:2em;
+    top:-.05em;
+}
+
+#terminadoReg {
+    border-radius:10px;
+}
+
+#entrarAut:hover,#terminadoReg:hover {
+    background-color:#007fff;
+    border-color:white;
+    color:white;
+}
+
+aside {
+    width:30%;
+    height:86vh;
+    float:left;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-around;
+    align-items:center;
+}
+
+section {
+    width:70%;
+    height:86vh;
+    float:left;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+aside>div:first-child {
+    display:flex;
+    flex-direction:column;
+    justify-content:space-around;
+    align-items:center;
+}
+
+#superior {
+    font-size:5em;
+}
+
+#inferior {
+    font-size:2em;
+}
+
+#tituloReg {
+    font-size:3.5em;
+}
+
+#subtituloReg {
+    font-size:1.5em;
+}
+
+#registro {
+    width:70%;
+    height:65%;
+    background-color: #e7e7e7;
+    border-radius:25px;
+    margin-top:-8em;
+    padding:2em;
+    
+}
+
+#registroForm {
+    width:100%;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-around;
+    align-items:center;
+}
+
+#usuarioReg,#claveReg,#claveReg2,#captchaReg {
+    height:3em;
+    width:98%;
+    border-radius:10px;
+    padding:0.5em;
+    border:none;
+}
+
+footer {
+    height:6vh;
+    clear: both;
+}
+
+footer {
+    display:flex;
+    flex-direction:column;
+    justify-content:space-around;
+    align-items:center;
+}
+
+footer p:nth-child(2) {
+    font-weight: 600;
+    font-style:italic;
+}
+footer p span {
+    display:inline-block;
+    transform:rotate(180deg);
+}
+
+@media screen and (max-width:1152px) {
+    html,body {
+        min-width:1152px;
+    }
+}
+
+form a {
+    color:rgb(0, 153, 255);
+    text-decoration:none;
+}
+
+

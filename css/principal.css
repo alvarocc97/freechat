@@ -1,0 +1,138 @@
+html {
+  min-height:100vh;
+  max-height:100vh;
+}
+header, main, footer {
+  padding-left: 300px;
+}
+
+main {
+  padding-bottom:6em;
+}
+
+@media only screen and (max-width : 992px) {
+    header, main, footer {
+      padding-left: 0;
+    }
+}
+
+#tituloConectados {
+  font-style:italic;
+}
+
+body {
+  background-image:url("../img/fondoChat3.png");
+  background-repeat:repeat;
+  background-attachment: fixed;
+  min-height:100vh;
+  max-height:100vh;
+}
+
+footer {
+  position:fixed;
+  width:100%;
+  height:6em;
+  background-color:rgb(234, 223, 235);
+  bottom:0;
+}
+
+.character-counter  {
+  margin-top:-1em;
+}
+
+footer {
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+::placeholder {
+  color:rgb(68, 68, 68);
+}
+
+input[type=text]:not(.browser-default):focus:not([readonly]) {
+  border-bottom: 1px solid rgb(160, 43, 170);
+  -webkit-box-shadow: 0 1px 0 0 rgb(160, 43, 170);
+          box-shadow: 0 1px 0 0 rgb(160, 43, 170);
+}
+
+#botonEnviarCont {
+  margin-top:2em;
+}
+
+.btn-flat {
+  color:rgb(160, 43, 170);
+}
+
+.btn-flat:disabled {
+  background-color:transparent !important;
+}
+
+.waves-effect.waves-teal .waves-ripple {
+  background-color: rgb(160, 43, 170);
+}
+
+.btn-flat:focus {
+  background-color:transparent;
+}
+
+.button-collapse {
+  position:fixed;
+  top:1em;
+  left:1em;
+  color:rgb(160, 43, 170);
+}
+
+.contenedorEnviado {
+  padding:1em;
+  background-color: rgb(160, 43, 170);
+  color:white;
+  box-shadow:0em .2em .2em rgb(95, 95, 95);
+  float: right;
+}
+
+.contenedorRecibido {
+  display:inline-block;
+  padding:1em;
+  background-color: rgb(185, 185, 185);
+  color:white;
+  box-shadow:0em .2em .2em rgb(95, 95, 95);
+}
+
+.mensajeRecibido, .mensajeEnviado {
+  font-size:1.5em;
+  margin-top:.5em;
+}
+
+@media screen and (max-width:400px) {
+  .contenedorEnviado, .contenedorRecibido {
+    transform:scale(0.8)!important;
+  }
+}
+
+#noMensajes {
+  display:inline-block;
+  color:white;
+  font-size:3em;
+  font-weight:300;
+  background-color:rgba(215, 130, 255, 0.678);
+  padding-left:2em;
+  padding-right:2em;
+}
+
+header {
+  height:3em;
+}
+
+#botonConfiguracion {
+  position:fixed;
+  bottom:5em;
+  left:-1em;
+  color:rgb(160, 43, 170);
+  margin-top:-1em;
+  margin-left:1em;
+}
+
+#botonConfiguracion:hover {
+  background-color:transparent;
+}
