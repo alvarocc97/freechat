@@ -1,15 +1,65 @@
 <?php
     if(isset($_REQUEST["nombreUsuario"])) {
+        $totalConectados=array();
         $nombreUsuario=$_REQUEST["nombreUsuario"];
         require "conexion.php";
-        $resultadoConectados=$conexion->query("SELECT nombre FROM usuarios WHERE conectado='S' AND nombre!='$nombreUsuario'");
-        $resultadoConectadosFilas=$resultadoConectados->num_rows;
-        if($resultadoConectadosFilas==0) {
-            echo "0";
+        $resultadoProfesionalesConectados=$conexion->query("SELECT nombre,apellidos FROM profesionales WHERE conectado='S'");
+        $resultadoProfesionalesConectadosFilas=$resultadoProfesionalesConectados->num_rows;
+        if($resultadoProfesionalesConectadosFilas==0) {
+            $resultadoUsuariosConectados=$conexion->query("SELECT nombre FROM usuarios WHERE conectado='S' AND nombre!='$nombreUsuario'");
+            $resultadoUsuariosConectadosFilas=$resultadoUsuariosConectados->num_rows;
+            if($resultadoUsuariosConectadosFilas==0) {
+                echo "0";
+            } else {
+                $usuariosConectados=$resultadoUsuariosConectados->fetch_all(MYSQLI_ASSOC);
+                $totalConectados["usuariosConectados"]=$usuariosConectados;
+                echo json_encode($totalConectados);
+            }
         } else {
-            $conectados=$resultadoConectados->fetch_all(MYSQLI_ASSOC);
-            echo json_encode($conectados);
+            $profesionalesConectados=$resultadoProfesionalesConectados->fetch_all(MYSQLI_ASSOC);
+            
+            $resultadoUsuariosConectados=$conexion->query("SELECT nombre FROM usuarios WHERE conectado='S' AND nombre!='$nombreUsuario'");
+            $resultadoUsuariosConectadosFilas=$resultadoUsuariosConectados->num_rows;
+            if($resultadoUsuariosConectadosFilas==0) {
+                $totalConectados["profesionalesConectados"]=$profesionalesConectados;
+                echo json_encode($totalConectados);
+            } else {
+                $usuariosConectados=$resultadoUsuariosConectados->fetch_all(MYSQLI_ASSOC);
+                $totalConectados["profesionalesConectadosTotal"]=$profesionalesConectados;
+                $totalConectados["usuariosConectadosTotal"]=$usuariosConectados;
+                echo json_encode($totalConectados);
+            }
         }
-        $conexion->close();
+    } elseif(isset($_REQUEST["emailUsuario"])) {
+        $totalConectados=array();
+        $emailUsuario=$_REQUEST["emailUsuario"];
+        require "conexion.php";
+        $resultadoProfesionalesConectados=$conexion->query("SELECT nombre,apellidos FROM profesionales WHERE conectado='S' AND email!='$emailUsuario'");
+        $resultadoProfesionalesConectadosFilas=$resultadoProfesionalesConectados->num_rows;
+        if($resultadoProfesionalesConectadosFilas==0) {
+            $resultadoUsuariosConectados=$conexion->query("SELECT nombre FROM usuarios WHERE conectado='S'");
+            $resultadoUsuariosConectadosFilas=$resultadoUsuariosConectados->num_rows;
+            if($resultadoUsuariosConectadosFilas==0) {
+                echo "0";
+            } else {
+                $usuariosConectados=$resultadoUsuariosConectados->fetch_all(MYSQLI_ASSOC);
+                $totalConectados["usuariosConectados"]=$usuariosConectados;
+                echo json_encode($totalConectados);
+            }
+        } else {
+            $profesionalesConectados=$resultadoProfesionalesConectados->fetch_all(MYSQLI_ASSOC);
+            
+            $resultadoUsuariosConectados=$conexion->query("SELECT nombre FROM usuarios WHERE conectado='S'");
+            $resultadoUsuariosConectadosFilas=$resultadoUsuariosConectados->num_rows;
+            if($resultadoUsuariosConectadosFilas==0) {
+                $totalConectados["profesionalesConectados"]=$profesionalesConectados;
+                echo json_encode($totalConectados);
+            } else {
+                $usuariosConectados=$resultadoUsuariosConectados->fetch_all(MYSQLI_ASSOC);
+                $totalConectados["profesionalesConectadosTotal"]=$profesionalesConectados;
+                $totalConectados["usuariosConectadosTotal"]=$usuariosConectados;
+                echo json_encode($totalConectados);
+            }
+        }
     }
 ?>

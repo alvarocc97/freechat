@@ -42,27 +42,45 @@
             <?php
                 if(isset($_SESSION["dniProfesional"])) {
                     ?>
-                     <a href="#!name"><span class="white-text name"><?php echo $nombreUsuario; ?><img id="profesionalStick" src="img/profesionalStick.png"></span></a>
-                    <a href="#!email"><span class="white-text email"><?php echo $emailUsuario; ?></span></a>
+                     <a href="#" id="nombreUsuario"><span class="white-text name"><?php echo $nombreUsuario; ?><img id="profesionalStick" src="img/profesionalStick.png"></span></a>
+                    <a href="#" id="emailUsuario"><span class="white-text email"><?php echo $emailUsuario; ?></span></a>
                     <?php
                 } else {
                     ?>
-                     <a href="#!name"><span class="white-text name"><?php echo $nombreUsuario; ?></span></a>
+                     <a href="#" id="nombreUsuario"><span class="white-text name"><?php echo $nombreUsuario; ?></span></a>
                     <?php
                 }
             ?>
         </div></li>
-        <li><div class="center-align" id="tituloConectados">Usuarios conectados</div></li>
+        <li><div class="center-align" id="tituloProfesionalesConectados">Profesionales conectados</div></li>
         <?php
             require "php/conexion.php";
-            $resultadoConectados=$conexion->query("SELECT nombre FROM usuarios WHERE conectado='S' AND nombre!='$nombreUsuario'");
-            $resultadoConectadosFilas=$resultadoConectados->num_rows;
-            if($resultadoConectadosFilas==0) {
+            if(isset($_SESSION["dniProfesional"])) {
+                $resultadoProfesionalesConectados=$conexion->query("SELECT nombre,apellidos FROM profesionales WHERE conectado='S' AND dni!='$dniCod'");
+            } else {
+                $resultadoProfesionalesConectados=$conexion->query("SELECT nombre,apellidos FROM profesionales WHERE conectado='S'");
+            }
+            $resultadoProfesionalesConectadosFilas=$resultadoProfesionalesConectados->num_rows;
+            if($resultadoProfesionalesConectadosFilas==0) {
+                ?>
+                <li><div class="center-align">No hay ningún profesional conectado</div></li>
+                <?php
+            } else {
+                while($nombreApellidos=$resultadoProfesionalesConectados->fetch_row()) {
+                    ?>
+                    <li><div class="center-align"><?php echo $nombreApellidos[0]." ".$nombreApellidos[1]; ?><img id="profesionalStick" src="img/profesionalStick.png"></div></li>
+                    <?php 
+                }
+            }
+            ?><li><div class="center-align" id="tituloUsuariosConectados">Usuarios conectados</div></li><?php
+            $resultadoUsuariosConectados=$conexion->query("SELECT nombre FROM usuarios WHERE conectado='S' AND nombre!='$nombreUsuario'");
+            $resultadoUsuariosConectadosFilas=$resultadoUsuariosConectados->num_rows;
+            if($resultadoUsuariosConectadosFilas==0) {
                 ?>
                 <li><div class="center-align">No hay ningún usuario conectado</div></li>
                 <?php
             } else {
-                while($nombre=$resultadoConectados->fetch_row()) {
+                while($nombre=$resultadoUsuariosConectados->fetch_row()) {
                     ?>
                     <li><div class="center-align"><?php echo $nombre[0]; ?></div></li>
                     <?php

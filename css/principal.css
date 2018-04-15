@@ -16,7 +16,7 @@ main {
     }
 }
 
-#tituloConectados {
+#tituloUsuariosConectados,#tituloProfesionalesConectados {
   font-style:italic;
 }
 

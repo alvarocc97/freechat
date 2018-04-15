@@ -10,16 +10,30 @@ $(function() {
     $('.tap-target').tapTarget('open');
     $(".button-collapse").sideNav();
     $("#salir").click(function() {
-        let nombreUsuario=$("title").text();
-        $.post("php/cerrarSesion.php",{
-            "nombreUsuario":nombreUsuario
-        },function(respuesta) {
-            if(respuesta=="1") {
-                window.location.href="index.php";
-            } else {
-                alert("ERROR");
-            }
-        });
+        if($("#emailUsuario").length>0) {
+            let emailUsuario=$("#emailUsuario").text();
+            $.post("php/cerrarSesion.php",{
+                "emailUsuario":emailUsuario
+            },function(respuesta) {
+                if(respuesta=="1") {
+                    window.location.href="index.php";
+                } else {
+                    alert("ERROR");
+                }
+            });
+        } else {
+            let nombreUsuario=$("title").text();
+            $.post("php/cerrarSesion.php",{
+                "nombreUsuario":nombreUsuario
+            },function(respuesta) {
+                if(respuesta=="1") {
+                    window.location.href="index.php";
+                } else {
+                    alert("ERROR");
+                }
+            });
+        }
+        
     });
 
     $("#botonConfiguracion").click(function() {
@@ -27,21 +41,76 @@ $(function() {
     });
 
     function actualizarConectados() {
-        let nombreUsuario=$("title").text();
-        $.post("php/actualizarConectados.php",{
-            "nombreUsuario":nombreUsuario
-        },function(respuesta) {
-            if(respuesta=="0") {
-                $("#slide-out>li:nth-child(n+3)").remove();
-                $("#slide-out").append("<li><div class='center-align'>No hay ningún usuario conectado</div></li>");
-            } else {
-                $("#slide-out>li:nth-child(n+3)").remove();
-                let conectados=JSON.parse(respuesta);
-                $.each(conectados,function(clave,valor) {
-                    $("#slide-out").append("<li><div class='center-align'>"+valor["nombre"]+"</div></li>"); 
-                })
-            }
-        })
+        if($("#emailUsuario").length>0) {
+            let emailUsuario=$("#emailUsuario").text();
+            $.post("php/actualizarConectados.php",{
+                "emailUsuario":emailUsuario
+            },function(respuesta) {
+                if(respuesta=="0") {
+                    $("#slide-out>li:not(:first-child)").remove();
+                    $("#slide-out").append("<li><div class='center-align' id='tituloProfesionalesConectados'>Profesionales conectados</div></li><li><div class='center-align'>No hay ningún profesional conectado</div></li><li><div class='center-align' id='tituloUsuariosConectados'>Usuarios conectados</div></li><li><div class='center-align'>No hay ningún usuario conectado</div></li>");
+                } else {
+                    $("#slide-out>li:not(:first-child)").remove();
+                    let conectados=JSON.parse(respuesta);
+                    if(conectados["profesionalesConectados"]) {
+                        $("#slide-out").append("<li><div class='center-align' id='tituloProfesionalesConectados'>Profesionales conectados</div></li>");
+                        $.each(conectados["profesionalesConectados"],function(clave,valor) {
+                            $("#slide-out").append("<li><div class='center-align'>"+valor["nombre"]+" "+valor["apellidos"]+"<img id='profesionalStick' src='img/profesionalStick.png'></div></li>");
+                        });
+                        $("#slide-out").append("<li><div class='center-align' id='tituloUsuariosConectados'>Usuarios conectados</div></li><li><div class='center-align'>No hay ningún usuario conectado</div></li>");
+                    } else if(conectados["usuariosConectados"]) {
+                        $("#slide-out").append("<li><div class='center-align' id='tituloProfesionalesConectados'>Profesionales conectados</div></li><li><div class='center-align'>No hay ningún profesional conectado</div></li><li><div class='center-align' id='tituloUsuariosConectados'>Usuarios conectados</div></li>");
+                        $.each(conectados["usuariosConectados"],function(clave,valor) {
+                            $("#slide-out").append("<li><div class='center-align'>"+valor["nombre"]+"</div></li>");
+                        });
+                    } else if(conectados["profesionalesConectadosTotal"]) {
+                        $("#slide-out").append("<li><div class='center-align' id='tituloProfesionalesConectados'>Profesionales conectados</div></li>");
+                        $.each(conectados["profesionalesConectadosTotal"],function(clave,valor) {
+                            $("#slide-out").append("<li><div class='center-align'>"+valor["nombre"]+" "+valor["apellidos"]+"<img id='profesionalStick' src='img/profesionalStick.png'></div></li>");
+                        });
+                        $("#slide-out").append("<li><div class='center-align' id='tituloUsuariosConectados'>Usuarios conectados</div></li>");
+                        $.each(conectados["usuariosConectadosTotal"],function(clave,valor) {
+                            $("#slide-out").append("<li><div class='center-align'>"+valor["nombre"]+"</div></li>");
+                        });
+                    }
+                }
+            });
+        } else {
+            let nombreUsuario=$("title").text();
+            $.post("php/actualizarConectados.php",{
+                "nombreUsuario":nombreUsuario
+            },function(respuesta) {
+                if(respuesta=="0") {
+                    $("#slide-out>li:not(:first-child)").remove();
+                    $("#slide-out").append("<li><div class='center-align' id='tituloProfesionalesConectados'>Profesionales conectados</div></li><li><div class='center-align'>No hay ningún profesional conectado</div></li><li><div class='center-align' id='tituloUsuariosConectados'>Usuarios conectados</div></li><li><div class='center-align'>No hay ningún usuario conectado</div></li>");
+                } else {
+                    $("#slide-out>li:not(:first-child)").remove();
+                    let conectados=JSON.parse(respuesta);
+                    if(conectados["profesionalesConectados"]) {
+                        $("#slide-out").append("<li><div class='center-align' id='tituloProfesionalesConectados'>Profesionales conectados</div></li>");
+                        $.each(conectados["profesionalesConectados"],function(clave,valor) {
+                            $("#slide-out").append("<li><div class='center-align'>"+valor["nombre"]+" "+valor["apellidos"]+"<img id='profesionalStick' src='img/profesionalStick.png'></div></li>");
+                        });
+                        $("#slide-out").append("<li><div class='center-align' id='tituloUsuariosConectados'>Usuarios conectados</div></li><li><div class='center-align'>No hay ningún usuario conectado</div></li>");
+                    } else if(conectados["usuariosConectados"]) {
+                        $("#slide-out").append("<li><div class='center-align' id='tituloProfesionalesConectados'>Profesionales conectados</div></li><li><div class='center-align'>No hay ningún profesional conectado</div></li><li><div class='center-align' id='tituloUsuariosConectados'>Usuarios conectados</div></li>");
+                        $.each(conectados["usuariosConectados"],function(clave,valor) {
+                            $("#slide-out").append("<li><div class='center-align'>"+valor["nombre"]+"</div></li>");
+                        });
+                    } else if(conectados["profesionalesConectadosTotal"]) {
+                        $("#slide-out").append("<li><div class='center-align' id='tituloProfesionalesConectados'>Profesionales conectados</div></li>");
+                        $.each(conectados["profesionalesConectadosTotal"],function(clave,valor) {
+                            $("#slide-out").append("<li><div class='center-align'>"+valor["nombre"]+" "+valor["apellidos"]+"<img id='profesionalStick' src='img/profesionalStick.png'></div></li>");
+                        });
+                        $("#slide-out").append("<li><div class='center-align' id='tituloUsuariosConectados'>Usuarios conectados</div></li>");
+                        $.each(conectados["usuariosConectadosTotal"],function(clave,valor) {
+                            $("#slide-out").append("<li><div class='center-align'>"+valor["nombre"]+"</div></li>");
+                        });
+                    }
+                }
+            });
+        }
+        
     }
 
     setTimeout(function() {
