@@ -10,10 +10,10 @@ $(function() {
     $('.tap-target').tapTarget('open');
     $(".button-collapse").sideNav();
     $("#salir").click(function() {
-        if($("#emailUsuario").length>0) {
-            let emailUsuario=$("#emailUsuario").text();
+        if($("#dniUsuario").length>0) {
+            let dniUsuario=$("#dniUsuario").text();
             $.post("php/cerrarSesion.php",{
-                "emailUsuario":emailUsuario
+                "dniUsuario":dniUsuario
             },function(respuesta) {
                 if(respuesta=="1") {
                     window.location.href="index.php";
@@ -41,10 +41,10 @@ $(function() {
     });
 
     function actualizarConectados() {
-        if($("#emailUsuario").length>0) {
-            let emailUsuario=$("#emailUsuario").text();
+        if($("#dniUsuario").length>0) {
+            let dniUsuario=$("#dniUsuario").text();
             $.post("php/actualizarConectados.php",{
-                "emailUsuario":emailUsuario
+                "dniUsuario":dniUsuario
             },function(respuesta) {
                 if(respuesta=="0") {
                     $("#slide-out>li:not(:first-child)").remove();
@@ -55,7 +55,7 @@ $(function() {
                     if(conectados["profesionalesConectados"]) {
                         $("#slide-out").append("<li><div class='center-align' id='tituloProfesionalesConectados'>Profesionales conectados</div></li>");
                         $.each(conectados["profesionalesConectados"],function(clave,valor) {
-                            $("#slide-out").append("<li><div class='center-align'>"+valor["nombre"]+" "+valor["apellidos"]+"<img id='profesionalStick' src='img/profesionalStick.png'></div></li>");
+                            $("#slide-out").append("<li><div class='center-align'>"+valor["nombre"]+" "+valor["apellidos"]+"<img class='profesionalStick' src='img/profesionalStick.png'></div></li>");
                         });
                         $("#slide-out").append("<li><div class='center-align' id='tituloUsuariosConectados'>Usuarios conectados</div></li><li><div class='center-align'>No hay ningún usuario conectado</div></li>");
                     } else if(conectados["usuariosConectados"]) {
@@ -66,7 +66,7 @@ $(function() {
                     } else if(conectados["profesionalesConectadosTotal"]) {
                         $("#slide-out").append("<li><div class='center-align' id='tituloProfesionalesConectados'>Profesionales conectados</div></li>");
                         $.each(conectados["profesionalesConectadosTotal"],function(clave,valor) {
-                            $("#slide-out").append("<li><div class='center-align'>"+valor["nombre"]+" "+valor["apellidos"]+"<img id='profesionalStick' src='img/profesionalStick.png'></div></li>");
+                            $("#slide-out").append("<li><div class='center-align'>"+valor["nombre"]+" "+valor["apellidos"]+"<img class='profesionalStick' src='img/profesionalStick.png'></div></li>");
                         });
                         $("#slide-out").append("<li><div class='center-align' id='tituloUsuariosConectados'>Usuarios conectados</div></li>");
                         $.each(conectados["usuariosConectadosTotal"],function(clave,valor) {
@@ -89,7 +89,7 @@ $(function() {
                     if(conectados["profesionalesConectados"]) {
                         $("#slide-out").append("<li><div class='center-align' id='tituloProfesionalesConectados'>Profesionales conectados</div></li>");
                         $.each(conectados["profesionalesConectados"],function(clave,valor) {
-                            $("#slide-out").append("<li><div class='center-align'>"+valor["nombre"]+" "+valor["apellidos"]+"<img id='profesionalStick' src='img/profesionalStick.png'></div></li>");
+                            $("#slide-out").append("<li><div class='center-align'>"+valor["nombre"]+" "+valor["apellidos"]+"<img class='profesionalStick' src='img/profesionalStick.png'></div></li>");
                         });
                         $("#slide-out").append("<li><div class='center-align' id='tituloUsuariosConectados'>Usuarios conectados</div></li><li><div class='center-align'>No hay ningún usuario conectado</div></li>");
                     } else if(conectados["usuariosConectados"]) {
@@ -100,7 +100,7 @@ $(function() {
                     } else if(conectados["profesionalesConectadosTotal"]) {
                         $("#slide-out").append("<li><div class='center-align' id='tituloProfesionalesConectados'>Profesionales conectados</div></li>");
                         $.each(conectados["profesionalesConectadosTotal"],function(clave,valor) {
-                            $("#slide-out").append("<li><div class='center-align'>"+valor["nombre"]+" "+valor["apellidos"]+"<img id='profesionalStick' src='img/profesionalStick.png'></div></li>");
+                            $("#slide-out").append("<li><div class='center-align'>"+valor["nombre"]+" "+valor["apellidos"]+"<img class='profesionalStick' src='img/profesionalStick.png'></div></li>");
                         });
                         $("#slide-out").append("<li><div class='center-align' id='tituloUsuariosConectados'>Usuarios conectados</div></li>");
                         $.each(conectados["usuariosConectadosTotal"],function(clave,valor) {
@@ -118,42 +118,89 @@ $(function() {
     },2000);
 
     function actualizarChat() {
-        let nombreUsuario=$("title").text();
-        $.post("php/actualizarChat.php",function(respuesta) {
-            if(respuesta=="0") {
-                $("main>div>div").remove();
-                $("main>div").append($("<div class='row'><div class='col s12 center-align'><p id='noMensajes'>No hay mensajes</p></div></div>"));
-            } else {
-                $("main>div>div").remove();
-                let mensajes=JSON.parse(respuesta);
-                $.each(mensajes,function(clave,valor) {
-                    if(valor["usuario"]==nombreUsuario) {
-                        $("main>div").append($("<div class='row'><div class='contenedorEnviado'><div class='datosEnviado'><span>"+valor["usuario"]+"</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>"+valor["fecha"]+"</span></div><div class='mensajeEnviado'>"+valor["mensaje"]+"</div></div></div>"));
-                    } else {
-                        $("main>div").append($("<div class='row'><div class='contenedorRecibido'><div class='datosRecibido'><span>"+valor["usuario"]+"</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>"+valor["fecha"]+"</span></div><div class='mensajeRecibido'>"+valor["mensaje"]+"</div></div></div>"));
-                    }
-                });
-            }
-        });
+        if($("#dniUsuario").length>0) {
+            let dniUsuario=$("#dniUsuario").text();
+            $.post("php/actualizarChat.php",function(respuesta) {
+                if(respuesta=="0") {
+                    $("main>div>div").remove();
+                    $("main>div").append($("<div class='row'><div class='col s12 center-align'><p id='noMensajes'>No hay mensajes</p></div></div>"));
+                } else {
+                    $("main>div>div").remove();
+                    let mensajes=JSON.parse(respuesta);
+                    $.each(mensajes,function(clave,valor) {
+                        if(valor["dni"]==dniUsuario && valor["profesional"]=="S") {
+                            $("main>div").append($("<div class='row'><div class='contenedorEnviado'><div class='datosEnviado'><span>"+valor["usuario"]+"<img class='profesionalStick' src='img/profesionalStick.png'></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>"+valor["fecha"]+"</span></div><div class='mensajeEnviado'>"+valor["mensaje"]+"</div></div></div>"));
+                        } else {
+                            if(valor["profesional"]=="S") {
+                                $("main>div").append($("<div class='row'><div class='contenedorRecibido'><div class='datosRecibido'><span>"+valor["usuario"]+"<img class='profesionalStick' src='img/profesionalStick.png'></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>"+valor["fecha"]+"</span></div><div class='mensajeRecibido'>"+valor["mensaje"]+"</div></div></div>"));
+                            } else {
+                                $("main>div").append($("<div class='row'><div class='contenedorRecibido'><div class='datosRecibido'><span>"+valor["usuario"]+"</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>"+valor["fecha"]+"</span></div><div class='mensajeRecibido'>"+valor["mensaje"]+"</div></div></div>"));
+                            }
+                        }
+                    });
+                }
+            });
+        } else {
+            let nombreUsuario=$("title").text();
+            $.post("php/actualizarChat.php",function(respuesta) {
+                if(respuesta=="0") {
+                    $("main>div>div").remove();
+                    $("main>div").append($("<div class='row'><div class='col s12 center-align'><p id='noMensajes'>No hay mensajes</p></div></div>"));
+                } else {
+                    $("main>div>div").remove();
+                    let mensajes=JSON.parse(respuesta);
+                    $.each(mensajes,function(clave,valor) {
+                        if(valor["usuario"]==nombreUsuario && valor["profesional"]=="N") {
+                            $("main>div").append($("<div class='row'><div class='contenedorEnviado'><div class='datosEnviado'><span>"+valor["usuario"]+"</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>"+valor["fecha"]+"</span></div><div class='mensajeEnviado'>"+valor["mensaje"]+"</div></div></div>"));
+                        } else {
+                            if(valor["profesional"]=="S") {
+                                $("main>div").append($("<div class='row'><div class='contenedorRecibido'><div class='datosRecibido'><span>"+valor["usuario"]+"<img class='profesionalStick' src='img/profesionalStick.png'></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>"+valor["fecha"]+"</span></div><div class='mensajeRecibido'>"+valor["mensaje"]+"</div></div></div>"));
+                            } else {
+                                $("main>div").append($("<div class='row'><div class='contenedorRecibido'><div class='datosRecibido'><span>"+valor["usuario"]+"</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>"+valor["fecha"]+"</span></div><div class='mensajeRecibido'>"+valor["mensaje"]+"</div></div></div>"));
+                            }
+                        }
+                    });
+                }
+            });
+        }
     }
 
-    setInterval(actualizarChat,1000);
+    setTimeout(function() {
+        setInterval(actualizarChat,1000);
+    },1000);
 
     $("#botonEnviar").click(function() {
-        let mensajeUsuario=$("#mensajeUsuario").val();
-        let nombreUsuario=$("title").text();
+        if($("#dniUsuario").length>0) {
+            let dniUsuario=$("#dniUsuario").text();
+            let mensajeUsuario=$("#mensajeUsuario").val();
 
-        $.post("php/enviarMensaje.php",{
-            "usuario":nombreUsuario,
-            "mensaje":mensajeUsuario
-        },function(respuesta) {
-            if(respuesta=="1") {
-                $("#mensajeUsuario").val("");
-            } else {
-                // *** INSERTAR UN MENSAJE QUE NO SEA ALERT ***
-                alert(ERROR);
-            }
-        });
+            $.post("php/enviarMensaje.php",{
+                "dni":dniUsuario,
+                "mensaje":mensajeUsuario
+            },function(respuesta) {
+                if(respuesta=="1") {
+                    $("#mensajeUsuario").val("");
+                } else {
+                    // *** INSERTAR UN MENSAJE QUE NO SEA ALERT ***
+                    alert(ERROR);
+                }
+            });
+        } else {
+            let mensajeUsuario=$("#mensajeUsuario").val();
+            let nombreUsuario=$("title").text();
+
+            $.post("php/enviarMensaje.php",{
+                "usuario":nombreUsuario,
+                "mensaje":mensajeUsuario
+            },function(respuesta) {
+                if(respuesta=="1") {
+                    $("#mensajeUsuario").val("");
+                } else {
+                    // *** INSERTAR UN MENSAJE QUE NO SEA ALERT ***
+                    alert(ERROR);
+                }
+            });
+        }
     });
 
     $("#mensajeUsuario").keyup(function(e) {

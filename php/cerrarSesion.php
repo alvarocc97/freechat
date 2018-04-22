@@ -8,10 +8,11 @@
             echo "0";
         }
         $conexion->close();
-    } elseif(isset($_REQUEST["emailUsuario"])) {
-        $emailUsuario=$_REQUEST["emailUsuario"];
+    } elseif(isset($_REQUEST["dniUsuario"])) {
+        $dniUsuario=$_REQUEST["dniUsuario"];
+        $dniCod=base64_encode($dniUsuario);
         require "conexion.php";
-        if($conexion->query("UPDATE profesionales SET conectado='N' WHERE email='$emailUsuario'")) {
+        if($conexion->query("UPDATE profesionales SET conectado='N' WHERE dni='$dniCod'")) {
             echo "1";
         } else {
             echo "0";

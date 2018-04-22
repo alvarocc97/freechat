@@ -15,11 +15,11 @@
         if(isset($_SESSION["dniProfesional"])) {
             $dniCod=base64_encode($_SESSION["dniProfesional"]);
             require "php/conexion.php";
-            $resultado=$conexion->query("SELECT nombre,email,imagen FROM profesionales WHERE dni='$dniCod'");
+            $resultado=$conexion->query("SELECT nombre,apellidos,dni,imagen FROM profesionales WHERE dni='$dniCod'");
             $fila=$resultado->fetch_row();
-            $nombreUsuario=$fila[0];
-            $emailUsuario=$fila[1];
-            $imagenUsuario=$fila[2];
+            $nombreUsuario=$fila[0]." ".$fila[1];
+            $dniUsuario=$fila[2];
+            $imagenUsuario=$fila[3];
             $conexion->close();
         } else {
             $nombreUsuario=$_SESSION["nombreUsuario"];
@@ -42,8 +42,8 @@
             <?php
                 if(isset($_SESSION["dniProfesional"])) {
                     ?>
-                     <a href="#" id="nombreUsuario"><span class="white-text name"><?php echo $nombreUsuario; ?><img id="profesionalStick" src="img/profesionalStick.png"></span></a>
-                    <a href="#" id="emailUsuario"><span class="white-text email"><?php echo $emailUsuario; ?></span></a>
+                     <a href="#" id="nombreUsuario"><span class="white-text name"><?php echo $nombreUsuario; ?><img class="profesionalStick" src="img/profesionalStick.png"></span></a>
+                    <a href="#" id="dniUsuario"><span class="white-text email"><?php echo base64_decode($dniUsuario); ?></span></a>
                     <?php
                 } else {
                     ?>
@@ -68,7 +68,7 @@
             } else {
                 while($nombreApellidos=$resultadoProfesionalesConectados->fetch_row()) {
                     ?>
-                    <li><div class="center-align"><?php echo $nombreApellidos[0]." ".$nombreApellidos[1]; ?><img id="profesionalStick" src="img/profesionalStick.png"></div></li>
+                    <li><div class="center-align"><?php echo $nombreApellidos[0]." ".$nombreApellidos[1]; ?><img class="profesionalStick" src="img/profesionalStick.png"></div></li>
                     <?php 
                 }
             }
@@ -98,7 +98,7 @@
         <div class="container">
             <?php
                 require "php/conexion.php";
-                $resultadoChat=$conexion->query("SELECT usuario,fecha,mensaje FROM mensajes");
+                $resultadoChat=$conexion->query("SELECT usuario,fecha,mensaje,profesional,dni FROM mensajes");
                 $resultadoChatFilas=$resultadoChat->num_rows;
                 if($resultadoChatFilas==0) {
                     ?>
@@ -109,29 +109,84 @@
                     </div>
                     <?php
                 } else {
-                    while($fila=$resultadoChat->fetch_assoc()) {
-                        if($fila["usuario"]==$nombreUsuario) {
-                            ?>
-                            <div class='row'>
-                                <div class='contenedorEnviado'>
-                                    <div class='datosEnviado'>
-                                        <span><?php echo $fila["usuario"]; ?></span>&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $fila["fecha"]; ?></span>
+                    if(isset($_SESSION["dniProfesional"])) {
+                        while($fila=$resultadoChat->fetch_assoc()) {
+                            if($fila["dni"]==$dniUsuario && $fila["profesional"]=="S") {
+                                ?>
+                                <div class='row'>
+                                    <div class='contenedorEnviado'>
+                                        <div class='datosEnviado'>
+                                            <span><?php echo $fila["usuario"]; ?><img class="profesionalStick" src="img/profesionalStick.png"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $fila["fecha"]; ?></span>
+                                        </div>
+                                        <div class='mensajeEnviado'><?php echo base64_decode($fila["mensaje"]); ?></div>
                                     </div>
-                                    <div class='mensajeEnviado'><?php echo base64_decode($fila["mensaje"]); ?></div>
                                 </div>
-                            </div>
-                            <?php
-                        } else {
-                            ?>
-                            <div class='row'>
-                                <div class='contenedorRecibido'>
-                                    <div class='datosRecibido'>
-                                        <span><?php echo $fila["usuario"]; ?></span>&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $fila["fecha"]; ?></span>
+                                <?php
+                            } else {
+                                if($fila["profesional"]=="S") {
+                                    ?>
+                                    <div class='row'>
+                                        <div class='contenedorRecibido'>
+                                            <div class='datosRecibido'>
+                                                <span><?php echo $fila["usuario"]; ?><img class="profesionalStick" src="img/profesionalStick.png"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $fila["fecha"]; ?></span>
+                                            </div>
+                                            <div class='mensajeRecibido'><?php echo base64_decode($fila["mensaje"]); ?></div>
+                                        </div>
                                     </div>
-                                    <div class='mensajeRecibido'><?php echo base64_decode($fila["mensaje"]); ?></div>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <div class='row'>
+                                        <div class='contenedorRecibido'>
+                                            <div class='datosRecibido'>
+                                                <span><?php echo $fila["usuario"]; ?></span>&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $fila["fecha"]; ?></span>
+                                            </div>
+                                            <div class='mensajeRecibido'><?php echo base64_decode($fila["mensaje"]); ?></div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
+                            }
+                        }
+                    } else {
+                        while($fila=$resultadoChat->fetch_assoc()) {
+                            if($fila["usuario"]==$nombreUsuario && $fila["profesional"]=="N") {
+                                ?>
+                                <div class='row'>
+                                    <div class='contenedorEnviado'>
+                                        <div class='datosEnviado'>
+                                            <span><?php echo $fila["usuario"]; ?></span>&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $fila["fecha"]; ?></span>
+                                        </div>
+                                        <div class='mensajeEnviado'><?php echo base64_decode($fila["mensaje"]); ?></div>
+                                    </div>
                                 </div>
-                            </div>
-                            <?php
+                                <?php
+                            } else {
+                                if($fila["profesional"]=="S") {
+                                    ?>
+                                    <div class='row'>
+                                        <div class='contenedorRecibido'>
+                                            <div class='datosRecibido'>
+                                                <span><?php echo $fila["usuario"]; ?><img class="profesionalStick" src="img/profesionalStick.png"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $fila["fecha"]; ?></span>
+                                            </div>
+                                            <div class='mensajeRecibido'><?php echo base64_decode($fila["mensaje"]); ?></div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <div class='row'>
+                                        <div class='contenedorRecibido'>
+                                            <div class='datosRecibido'>
+                                                <span><?php echo $fila["usuario"]; ?></span>&nbsp;&nbsp;&nbsp;&nbsp;<span><?php echo $fila["fecha"]; ?></span>
+                                            </div>
+                                            <div class='mensajeRecibido'><?php echo base64_decode($fila["mensaje"]); ?></div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
+                                
+                            }
                         }
                     }
                 }

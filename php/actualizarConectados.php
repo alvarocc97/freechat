@@ -30,11 +30,12 @@
                 echo json_encode($totalConectados);
             }
         }
-    } elseif(isset($_REQUEST["emailUsuario"])) {
+    } elseif(isset($_REQUEST["dniUsuario"])) {
         $totalConectados=array();
-        $emailUsuario=$_REQUEST["emailUsuario"];
+        $dniUsuario=$_REQUEST["dniUsuario"];
+        $dniCod=base64_encode($dniUsuario);
         require "conexion.php";
-        $resultadoProfesionalesConectados=$conexion->query("SELECT nombre,apellidos FROM profesionales WHERE conectado='S' AND email!='$emailUsuario'");
+        $resultadoProfesionalesConectados=$conexion->query("SELECT nombre,apellidos FROM profesionales WHERE conectado='S' AND dni!='$dniCod'");
         $resultadoProfesionalesConectadosFilas=$resultadoProfesionalesConectados->num_rows;
         if($resultadoProfesionalesConectadosFilas==0) {
             $resultadoUsuariosConectados=$conexion->query("SELECT nombre FROM usuarios WHERE conectado='S'");

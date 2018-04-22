@@ -9,6 +9,7 @@
 body {
     background:linear-gradient(white,rgb(97, 97, 97)) fixed;
     font-family:"Roboto",sans-serif;
+    font-weight: 100;
 }
 
 header {
@@ -138,6 +139,7 @@ footer p:nth-child(2) {
 footer p span {
     display:inline-block;
     transform:rotate(180deg);
+    margin-left: -.3em;
 }
 
 @media screen and (max-width:1152px) {
