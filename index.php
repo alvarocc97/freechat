@@ -32,34 +32,38 @@
         </div>
         <div id="autenticacion">
             <form id="autenticacionForm" action="index.php" method="post">
-                <input type="text" id="usuarioAut" name="usuarioAut" size="20" maxlength="50" placeholder="Usuario/DNI" required title="Ingresa aquí tu nombre de usuario o tu DNI si estás registrado/a como profesional">
-                <input type="password" id="claveAut" name="claveAut" size="20" maxlength="50" placeholder="Clave" required title="Ingresa aquí tu clave de usuario">
+                <div>
+                    <input type="text" id="usuarioAut" name="usuarioAut" size="20" maxlength="50" placeholder="Usuario/DNI" required title="Ingresa aquí tu nombre de usuario o tu DNI si estás registrado/a como profesional">
+                    <input type="password" id="claveAut" name="claveAut" size="20" maxlength="50" placeholder="Clave" required title="Ingresa aquí tu clave de usuario">
+                </div>
                 <input type="submit" id="entrarAut" name="entrarAut" value="Entrar">
             </form>
         </div>
     </header>
-    <section>
-        <p id="superior">Rápido, simple, seguro</p>
-        <p id="inferior">Sin datos personales, sin dejar constancia, siéntete segura</p>
-    </section>
-    <aside>
-        <div>
-            <p id="tituloReg">Regístrate</p>
-            <p id="subtituloReg">Totalmente gratis, por supuesto</p>
-        </div>
-        <div id="registro">
-            <form id="registroForm" action="index.php" method="post">
-                <input type="text" id="usuarioReg" name="usuarioReg" size="20" maxlength="50" placeholder="Usuario" required title="Introduce aquí el nombre de usuario que quieras tener">
-                <input type="password" id="claveReg" name="claveReg" size="20" maxlength="50" placeholder="Clave" required title="Introduce aquí la clave que quieras tener">
-                <input type="password" id="claveReg2" name="claveReg2" size="20" maxlength="50" placeholder="Vuelve a introducir la clave" required title="Repite la clave para comprobar que no te has equivocado">
-                <img src="php/captcha.php" alt="CAPTCHA">
-                <input type="hidden" id="cadenaCaptchaReg" name="cadenaCaptchaReg" value=<?php echo $cadena; ?>>
-                <input type="text" id="captchaReg" name="captchaReg" size="20" maxlength="12" placeholder="Introduce los caracteres que ves" required>
-                <input type="submit" id="terminadoReg" name="terminadoReg" value="Terminado">
-                <a href="registroProfesional.php">¿Quieres unirte como profesional?</a>
-            </form>
-        </div>
-    </aside>
+    <main>
+        <section>
+            <p id="superior">Rápido, simple, seguro</p>
+            <p id="inferior">Sin datos personales, sin dejar constancia, siéntete segura</p>
+        </section>
+        <aside>
+            <div>
+                <p id="tituloReg">Regístrate</p>
+                <p id="subtituloReg">Totalmente gratis, por supuesto</p>
+            </div>
+            <div id="registro">
+                <form id="registroForm" action="index.php" method="post">
+                    <input type="text" id="usuarioReg" name="usuarioReg" size="20" maxlength="50" placeholder="Usuario" required title="Introduce aquí el nombre de usuario que quieras tener">
+                    <input type="password" id="claveReg" name="claveReg" size="20" maxlength="50" placeholder="Clave" required title="Introduce aquí la clave que quieras tener">
+                    <input type="password" id="claveReg2" name="claveReg2" size="20" maxlength="50" placeholder="Vuelve a introducir la clave" required title="Repite la clave para comprobar que no te has equivocado">
+                    <img src="php/captcha.php" alt="CAPTCHA">
+                    <input type="hidden" id="cadenaCaptchaReg" name="cadenaCaptchaReg" value=<?php echo $cadena; ?>>
+                    <input type="text" id="captchaReg" name="captchaReg" size="20" maxlength="12" placeholder="Introduce los caracteres que ves" required>
+                    <input type="submit" id="terminadoReg" name="terminadoReg" value="Terminado">
+                    <a href="registroProfesional.php">¿Quieres unirte como profesional?</a>
+                </form>
+            </div>
+        </aside>
+    </main>
     <footer>
         <p>Borraremos tus conversaciones de nuestras bases de datos en cuanto cierres la sesión, lo que tengas que decir es sólo cosa tuya</p>
         <p>Álvaro Cabezas Campos&nbsp;&nbsp;&nbsp;<span>©</span>2018</p>
