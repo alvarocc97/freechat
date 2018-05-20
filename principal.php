@@ -27,7 +27,20 @@
             $nombreUsuario=$fila[0]." ".$fila[1];
             $dniUsuario=$fila[2];
             $imagenUsuario=$fila[3];
+
+            $resultadoNotificaciones=$conexion->query("SELECT * FROM peticiones WHERE solicitado='$dniUsuario'");
+            $resultadoNotificacionesNum=$resultadoNotificaciones->num_rows;
             $conexion->close();
+
+            if($resultadoNotificacionesNum>0) {
+                ?>
+                <title><?php echo $nombreUsuario; ?> (<?php echo $resultadoNotificacionesNum; ?>)</title>
+                <?php
+            } else {
+                ?>
+                <title><?php echo $nombreUsuario; ?></title>
+                <?php
+            }
         } else {
             $nombreUsuario=$_SESSION["nombreUsuario"];
             require "php/conexion.php";
@@ -35,9 +48,11 @@
             $filaImagen=$resultadoImagen->fetch_row();
             $imagenUsuario=$filaImagen[0];
             $conexion->close();
+            ?>
+            <title><?php echo $nombreUsuario; ?></title>
+            <?php
         }
     ?>
-    <title><?php echo $nombreUsuario; ?></title>
 </head>
 <body>
     <ul id="slide-out" class="side-nav fixed">
@@ -48,8 +63,22 @@
             <a href="#" id="imagenUsuario"><img class="circle" src="<?php echo $imagenUsuario; ?>"></a>
             <?php
                 if(isset($_SESSION["dniProfesional"])) {
+                    if($resultadoNotificacionesNum>0) {
+                        if($resultadoNotificacionesNum==1) {
+                            ?>
+                            <a href="#" id="nombreUsuario"><span class="white-text name"><?php echo $nombreUsuario; ?><img class="profesionalStick" src="img/profesionalStick.png"><span class="new badge" data-badge-caption="petición"><?php echo $resultadoNotificacionesNum; ?></span></span></a>
+                            <?php 
+                        } else {
+                            ?>
+                            <a href="#" id="nombreUsuario"><span class="white-text name"><?php echo $nombreUsuario; ?><img class="profesionalStick" src="img/profesionalStick.png"><span class="new badge" data-badge-caption="peticiones"><?php echo $resultadoNotificacionesNum; ?></span></span></a>
+                            <?php   
+                        }
+                    } else {
+                        ?>
+                        <a href="#" id="nombreUsuario"><span class="white-text name"><?php echo $nombreUsuario; ?><img class="profesionalStick" src="img/profesionalStick.png"></span></a>
+                        <?php
+                    }
                     ?>
-                     <a href="#" id="nombreUsuario"><span class="white-text name"><?php echo $nombreUsuario; ?><img class="profesionalStick" src="img/profesionalStick.png"></span></a>
                     <a href="#" id="dniUsuario"><span class="white-text email"><?php echo base64_decode($dniUsuario); ?></span></a>
                     <?php
                 } else {
@@ -97,7 +126,23 @@
         ?>
         <button id="botonConfiguracion" class="waves-effect waves-light waves-purple btn-flat btn-large"><i class="material-icons">settings</i></button>
     </ul>
-    <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+    <?php
+    if(isset($_SESSION["dniProfesional"])) {
+        if($resultadoNotificacionesNum>0) {
+            ?>
+            <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i><span class="badge-collapse"><?php echo $resultadoNotificacionesNum; ?></span></a>
+            <?php
+        } else {
+            ?>
+            <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+            <?php
+        }
+    } else {
+        ?>
+        <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+        <?php
+    }
+    ?>
     <header>
    
     </header>

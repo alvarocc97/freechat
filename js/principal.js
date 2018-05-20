@@ -242,6 +242,41 @@ $(function() {
             });
         });
     }
-
     enviarPeticion();
+
+    function actualizarNotificaciones() {
+        if($("#dniUsuario").length>0) {
+            let dniProfesional=$("#dniUsuario").text();
+            let elementoClonado=$("#nombreUsuario").clone();
+            let elementoABorrar=elementoClonado.find(".new.badge");
+            elementoABorrar.remove();
+            let nombreUsuario=elementoClonado.text();
+            let peticionesAnteriores=$(".badge-collapse").text();
+
+            $.post("php/actualizarNotificaciones.php",{
+                "dniProfesional":dniProfesional
+            },function(respuesta) {
+                if(respuesta>0) {
+                    if(respuesta==1) {
+                        $("#nombreUsuario .new.badge").remove();
+                        $("#nombreUsuario span.name").append("<span class='new badge' data-badge-caption='petición'>"+respuesta+"</span>");
+                    } else {
+                        $("#nombreUsuario .new.badge").remove();
+                        $("#nombreUsuario span.name").append("<span class='new badge' data-badge-caption='peticiones'>"+respuesta+"</span>");
+                    }
+                    $("title").text("");
+                    $("title").text(nombreUsuario+" ("+respuesta+")");
+                    $(".badge-collapse").text("");
+                    $(".badge-collapse").text(respuesta);
+                } else {
+                    $("title").text(nombreUsuario);
+                    $("#nombreUsuario .new.badge").remove();
+                    $(".badge-collapse").remove();
+                }
+            });
+        }
+    }
+    setTimeout(function() {
+        setInterval(actualizarNotificaciones,2000);
+    },2000);
 });
