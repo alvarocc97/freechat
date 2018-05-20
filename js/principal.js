@@ -55,7 +55,7 @@ $(function() {
                     if(conectados["profesionalesConectados"]) {
                         $("#slide-out").append("<li><div class='center-align' id='tituloProfesionalesConectados'>Profesionales conectados</div></li>");
                         $.each(conectados["profesionalesConectados"],function(clave,valor) {
-                            $("#slide-out").append("<li><div class='center-align profesional'>"+valor["nombre"]+" "+valor["apellidos"]+"<img class='profesionalStick' src='img/profesionalStick.png'></div></li>");
+                            $("#slide-out").append("<li><div class='center-align profesional' idProf='"+valor["dni"]+"'>"+valor["nombre"]+" "+valor["apellidos"]+"<img class='profesionalStick' src='img/profesionalStick.png'></div></li>");
                         });
                         $("#slide-out").append("<li><div class='center-align' id='tituloUsuariosConectados'>Usuarios conectados</div></li><li><div class='center-align'>No hay ningún usuario conectado</div></li>");
                     } else if(conectados["usuariosConectados"]) {
@@ -66,7 +66,7 @@ $(function() {
                     } else if(conectados["profesionalesConectadosTotal"]) {
                         $("#slide-out").append("<li><div class='center-align' id='tituloProfesionalesConectados'>Profesionales conectados</div></li>");
                         $.each(conectados["profesionalesConectadosTotal"],function(clave,valor) {
-                            $("#slide-out").append("<li><div class='center-align profesional'>"+valor["nombre"]+" "+valor["apellidos"]+"<img class='profesionalStick' src='img/profesionalStick.png'></div></li>");
+                            $("#slide-out").append("<li><div class='center-align profesional' idProf='"+valor["dni"]+"'>"+valor["nombre"]+" "+valor["apellidos"]+"<img class='profesionalStick' src='img/profesionalStick.png'></div></li>");
                         });
                         $("#slide-out").append("<li><div class='center-align' id='tituloUsuariosConectados'>Usuarios conectados</div></li>");
                         $.each(conectados["usuariosConectadosTotal"],function(clave,valor) {
@@ -74,6 +74,7 @@ $(function() {
                         });
                     }
                 }
+                enviarPeticion();
             });
         } else {
             let nombreUsuario=$("title").text();
@@ -89,7 +90,7 @@ $(function() {
                     if(conectados["profesionalesConectados"]) {
                         $("#slide-out").append("<li><div class='center-align' id='tituloProfesionalesConectados'>Profesionales conectados</div></li>");
                         $.each(conectados["profesionalesConectados"],function(clave,valor) {
-                            $("#slide-out").append("<li><div class='center-align profesional'>"+valor["nombre"]+" "+valor["apellidos"]+"<img class='profesionalStick' src='img/profesionalStick.png'></div></li>");
+                            $("#slide-out").append("<li><div class='center-align profesional' idProf='"+valor["dni"]+"'>"+valor["nombre"]+" "+valor["apellidos"]+"<img class='profesionalStick' src='img/profesionalStick.png'></div></li>");
                         });
                         $("#slide-out").append("<li><div class='center-align' id='tituloUsuariosConectados'>Usuarios conectados</div></li><li><div class='center-align'>No hay ningún usuario conectado</div></li>");
                     } else if(conectados["usuariosConectados"]) {
@@ -100,7 +101,7 @@ $(function() {
                     } else if(conectados["profesionalesConectadosTotal"]) {
                         $("#slide-out").append("<li><div class='center-align' id='tituloProfesionalesConectados'>Profesionales conectados</div></li>");
                         $.each(conectados["profesionalesConectadosTotal"],function(clave,valor) {
-                            $("#slide-out").append("<li><div class='center-align profesional'>"+valor["nombre"]+" "+valor["apellidos"]+"<img class='profesionalStick' src='img/profesionalStick.png'></div></li>");
+                            $("#slide-out").append("<li><div class='center-align profesional' idProf='"+valor["dni"]+"'>"+valor["nombre"]+" "+valor["apellidos"]+"<img class='profesionalStick' src='img/profesionalStick.png'></div></li>");
                         });
                         $("#slide-out").append("<li><div class='center-align' id='tituloUsuariosConectados'>Usuarios conectados</div></li>");
                         $.each(conectados["usuariosConectadosTotal"],function(clave,valor) {
@@ -108,6 +109,7 @@ $(function() {
                         });
                     }
                 }
+                enviarPeticion();
             });
         }
         
@@ -213,5 +215,33 @@ $(function() {
             }
         }
     });
-    
+
+    function enviarPeticion() {
+        $(".profesional").click(function() {
+            let solicitado=$(this).attr("idProf");
+            if($("#dniUsuario").length>0) {
+                var solicitante=$("#dniUsuario").text();
+            } else {
+                var solicitante=$("title").text();
+            }
+
+            $.post("php/enviarPeticion.php",{
+                "solicitado":solicitado,
+                "solicitante":solicitante
+            },function(respuesta) {
+                if(respuesta=="1") {
+                    Materialize.toast("Petición enviada",2000,"",function() {
+                        Materialize.toast("Espera a que el profesional acepte",2000);
+                    });
+                } else if(respuesta=="2") {
+                    Materialize.toast("Ya le has enviado una petición a este profesional, espera a que acepte",3000);
+                } else {
+                    // *** INSERTAR UN MENSAJE QUE NO SEA ALERT ***
+                    alert(ERROR);
+                }
+            });
+        });
+    }
+
+    enviarPeticion();
 });

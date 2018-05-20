@@ -3,7 +3,7 @@
         $totalConectados=array();
         $nombreUsuario=$_REQUEST["nombreUsuario"];
         require "conexion.php";
-        $resultadoProfesionalesConectados=$conexion->query("SELECT nombre,apellidos FROM profesionales WHERE conectado='S'");
+        $resultadoProfesionalesConectados=$conexion->query("SELECT nombre,apellidos,dni FROM profesionales WHERE conectado='S'");
         $resultadoProfesionalesConectadosFilas=$resultadoProfesionalesConectados->num_rows;
         if($resultadoProfesionalesConectadosFilas==0) {
             $resultadoUsuariosConectados=$conexion->query("SELECT nombre FROM usuarios WHERE conectado='S' AND nombre!='$nombreUsuario'");
@@ -35,7 +35,7 @@
         $dniUsuario=$_REQUEST["dniUsuario"];
         $dniCod=base64_encode($dniUsuario);
         require "conexion.php";
-        $resultadoProfesionalesConectados=$conexion->query("SELECT nombre,apellidos FROM profesionales WHERE conectado='S' AND dni!='$dniCod'");
+        $resultadoProfesionalesConectados=$conexion->query("SELECT nombre,apellidos,dni FROM profesionales WHERE conectado='S' AND dni!='$dniCod'");
         $resultadoProfesionalesConectadosFilas=$resultadoProfesionalesConectados->num_rows;
         if($resultadoProfesionalesConectadosFilas==0) {
             $resultadoUsuariosConectados=$conexion->query("SELECT nombre FROM usuarios WHERE conectado='S'");

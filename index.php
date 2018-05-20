@@ -86,30 +86,38 @@
 
             if($cadenaCaptchaReg==$captchaReg) {
                 if($claveReg==$claveReg2) {
-                    require "php/conexion.php";
-                    $sql="SELECT nombre FROM usuarios WHERE nombre='$usuarioReg'";
-                    $resultado=$conexion->query($sql);
-                    $resultadoFilas=$resultado->num_rows;
-                    if($resultadoFilas==0) {
-                        $semilla="fth34bP1Qx";
-                        $claveHash=sha1(md5($semilla.$claveReg));
-                        $sql="INSERT INTO usuarios (nombre,clave,imagen,conectado) VALUES ('$usuarioReg','$claveHash','img/fondoUsuario.jpg','N')";
-                        $conexion->query($sql);
+                    if(preg_match("/^[0-9]{8}-[TRWAGMYFPDXBNJZSQVHLCKE]$/i",$usuarioReg)) {
                         ?>
-                        <div id="dialogoRegistroCorrecto" title="Usuaria registrada">
-                            <p>Ya estás registrada como usuaria en nuestras bases de datos y nadie podrá registrarse con tu mismo nombre.
-                            Para entrar, simplemente procede a autenticarte. Ah, y podrás borrar tu cuenta cuando quieras.</p>
+                        <div id="dialogoDniNoPermitido" title="No se permiten DNIs">
+                            <p>Lo sentimos, pero para proteger en todo lo posible tu privacidad no podemos permitir que uses tu DNI como nombre de usuario.</p>
                         </div>
                         <?php
                     } else {
-                        ?>
-                        <div id="dialogoUsuarioExistente" title="Usuaria existente">
-                            <p>Lo sentimos, pero ya existe una usuaria con el mismo nombre. Prueba a elegir otro diferente y sabrás si está disponible
-                            cuando el borde del campo permanezca verde.</p>
-                        </div>
-                        <?php
+                        require "php/conexion.php";
+                        $sql="SELECT nombre FROM usuarios WHERE nombre='$usuarioReg'";
+                        $resultado=$conexion->query($sql);
+                        $resultadoFilas=$resultado->num_rows;
+                        if($resultadoFilas==0) {
+                            $semilla="fth34bP1Qx";
+                            $claveHash=sha1(md5($semilla.$claveReg));
+                            $sql="INSERT INTO usuarios (nombre,clave,imagen,conectado) VALUES ('$usuarioReg','$claveHash','img/fondoUsuario.jpg','N')";
+                            $conexion->query($sql);
+                            ?>
+                            <div id="dialogoRegistroCorrecto" title="Bienvenida">
+                                <p>Ya estás registrada como usuaria en nuestras bases de datos y nadie podrá registrarse con tu mismo nombre.
+                                Para entrar, simplemente procede a autenticarte. Ah, y podrás borrar tu cuenta cuando quieras.</p>
+                            </div>
+                            <?php
+                        } else {
+                            ?>
+                            <div id="dialogoUsuarioExistente" title="Usuaria existente">
+                                <p>Lo sentimos, pero ya existe una usuaria con el mismo nombre. Prueba a elegir otro diferente y sabrás si está disponible
+                                cuando el borde del campo permanezca verde.</p>
+                            </div>
+                            <?php
+                        }
+                        $conexion->close();
                     }
-                    $conexion->close();
                 } else {
                     ?>
                     <div id="dialogoClavesDiferentes" title="Las claves no coinciden">

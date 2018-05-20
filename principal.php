@@ -63,9 +63,9 @@
         <?php
             require "php/conexion.php";
             if(isset($_SESSION["dniProfesional"])) {
-                $resultadoProfesionalesConectados=$conexion->query("SELECT nombre,apellidos FROM profesionales WHERE conectado='S' AND dni!='$dniCod'");
+                $resultadoProfesionalesConectados=$conexion->query("SELECT nombre,apellidos,dni FROM profesionales WHERE conectado='S' AND dni!='$dniCod'");
             } else {
-                $resultadoProfesionalesConectados=$conexion->query("SELECT nombre,apellidos FROM profesionales WHERE conectado='S'");
+                $resultadoProfesionalesConectados=$conexion->query("SELECT nombre,apellidos,dni FROM profesionales WHERE conectado='S'");
             }
             $resultadoProfesionalesConectadosFilas=$resultadoProfesionalesConectados->num_rows;
             if($resultadoProfesionalesConectadosFilas==0) {
@@ -73,9 +73,9 @@
                 <li><div class="center-align">No hay ningún profesional conectado</div></li>
                 <?php
             } else {
-                while($nombreApellidos=$resultadoProfesionalesConectados->fetch_row()) {
+                while($nombreApellidosDni=$resultadoProfesionalesConectados->fetch_row()) {
                     ?>
-                    <li><div class="center-align profesional"><?php echo $nombreApellidos[0]." ".$nombreApellidos[1]; ?><img class="profesionalStick" src="img/profesionalStick.png"></div></li>
+                    <li><div class="center-align profesional" idProf="<?php echo $nombreApellidosDni[2]; ?>"><?php echo $nombreApellidosDni[0]." ".$nombreApellidosDni[1]; ?><img class="profesionalStick" src="img/profesionalStick.png"></div></li>
                     <?php 
                 }
             }

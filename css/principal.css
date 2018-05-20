@@ -142,3 +142,13 @@ header {
   margin-left:.5em;
   vertical-align:middle
 }
+
+.profesional:hover {
+  cursor: pointer;
+  color: rgb(160, 43, 170);
+}
+
+.toast {
+  background-color: #fff;
+  color: rgb(160, 43, 170);
+}

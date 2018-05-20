@@ -19,7 +19,7 @@ $(function() {
         });
     });
 
-    $("#dialogoRegistroCorrecto,#dialogoUsuarioExistente,#dialogoClavesDiferentes,#dialogoCaptchaIncorrecto,#datosIncorrectos").dialog({
+    $("#dialogoRegistroCorrecto,#dialogoUsuarioExistente,#dialogoClavesDiferentes,#dialogoCaptchaIncorrecto,#datosIncorrectos,#dialogoDniNoPermitido").dialog({
         resizable:false,
     });
 
