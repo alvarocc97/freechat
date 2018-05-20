@@ -10,6 +10,13 @@
     <script src="js/materialize.js"></script>
     <script src="js/principal.js"></script>
     <link href="css/principal.css" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+    <link rel="manifest" href="img/site.webmanifest">
+    <link rel="mask-icon" href="img/safari-pinned-tab.svg" color="#cd69d6">
+    <meta name="msapplication-TileColor" content="#2d89ef">
+    <meta name="theme-color" content="#ffffff">
     <?php
         session_start();
         if(isset($_SESSION["dniProfesional"])) {
@@ -68,7 +75,7 @@
             } else {
                 while($nombreApellidos=$resultadoProfesionalesConectados->fetch_row()) {
                     ?>
-                    <li><div class="center-align"><?php echo $nombreApellidos[0]." ".$nombreApellidos[1]; ?><img class="profesionalStick" src="img/profesionalStick.png"></div></li>
+                    <li><div class="center-align profesional"><?php echo $nombreApellidos[0]." ".$nombreApellidos[1]; ?><img class="profesionalStick" src="img/profesionalStick.png"></div></li>
                     <?php 
                 }
             }

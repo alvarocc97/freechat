@@ -27,7 +27,7 @@
         if($conexion->query("INSERT INTO mensajes (usuario,fecha,mensaje,profesional,dni) VALUES ('$nombreApellidosFila[0] $nombreApellidosFila[1]',NOW(),'$mensajeCodificado','S','$dniCod')")) {
             echo "1";
         } else {
-            echo "0";
+            echo $conexion->error;
         }
         $conexion->close();
     }

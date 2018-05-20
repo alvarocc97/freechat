@@ -1,5 +1,5 @@
 <?php
-     $conexion=new mysqli("localhost","root","","chat");
+     $conexion=new mysqli("localhost","root","","freechat");
      if($conexion->errno) {
          die("Se ha producido un error: ".$conexion->error);
      } else {

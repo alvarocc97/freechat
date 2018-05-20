@@ -55,7 +55,7 @@ $(function() {
                     if(conectados["profesionalesConectados"]) {
                         $("#slide-out").append("<li><div class='center-align' id='tituloProfesionalesConectados'>Profesionales conectados</div></li>");
                         $.each(conectados["profesionalesConectados"],function(clave,valor) {
-                            $("#slide-out").append("<li><div class='center-align'>"+valor["nombre"]+" "+valor["apellidos"]+"<img class='profesionalStick' src='img/profesionalStick.png'></div></li>");
+                            $("#slide-out").append("<li><div class='center-align profesional'>"+valor["nombre"]+" "+valor["apellidos"]+"<img class='profesionalStick' src='img/profesionalStick.png'></div></li>");
                         });
                         $("#slide-out").append("<li><div class='center-align' id='tituloUsuariosConectados'>Usuarios conectados</div></li><li><div class='center-align'>No hay ningún usuario conectado</div></li>");
                     } else if(conectados["usuariosConectados"]) {
@@ -66,7 +66,7 @@ $(function() {
                     } else if(conectados["profesionalesConectadosTotal"]) {
                         $("#slide-out").append("<li><div class='center-align' id='tituloProfesionalesConectados'>Profesionales conectados</div></li>");
                         $.each(conectados["profesionalesConectadosTotal"],function(clave,valor) {
-                            $("#slide-out").append("<li><div class='center-align'>"+valor["nombre"]+" "+valor["apellidos"]+"<img class='profesionalStick' src='img/profesionalStick.png'></div></li>");
+                            $("#slide-out").append("<li><div class='center-align profesional'>"+valor["nombre"]+" "+valor["apellidos"]+"<img class='profesionalStick' src='img/profesionalStick.png'></div></li>");
                         });
                         $("#slide-out").append("<li><div class='center-align' id='tituloUsuariosConectados'>Usuarios conectados</div></li>");
                         $.each(conectados["usuariosConectadosTotal"],function(clave,valor) {
@@ -89,7 +89,7 @@ $(function() {
                     if(conectados["profesionalesConectados"]) {
                         $("#slide-out").append("<li><div class='center-align' id='tituloProfesionalesConectados'>Profesionales conectados</div></li>");
                         $.each(conectados["profesionalesConectados"],function(clave,valor) {
-                            $("#slide-out").append("<li><div class='center-align'>"+valor["nombre"]+" "+valor["apellidos"]+"<img class='profesionalStick' src='img/profesionalStick.png'></div></li>");
+                            $("#slide-out").append("<li><div class='center-align profesional'>"+valor["nombre"]+" "+valor["apellidos"]+"<img class='profesionalStick' src='img/profesionalStick.png'></div></li>");
                         });
                         $("#slide-out").append("<li><div class='center-align' id='tituloUsuariosConectados'>Usuarios conectados</div></li><li><div class='center-align'>No hay ningún usuario conectado</div></li>");
                     } else if(conectados["usuariosConectados"]) {
@@ -100,7 +100,7 @@ $(function() {
                     } else if(conectados["profesionalesConectadosTotal"]) {
                         $("#slide-out").append("<li><div class='center-align' id='tituloProfesionalesConectados'>Profesionales conectados</div></li>");
                         $.each(conectados["profesionalesConectadosTotal"],function(clave,valor) {
-                            $("#slide-out").append("<li><div class='center-align'>"+valor["nombre"]+" "+valor["apellidos"]+"<img class='profesionalStick' src='img/profesionalStick.png'></div></li>");
+                            $("#slide-out").append("<li><div class='center-align profesional'>"+valor["nombre"]+" "+valor["apellidos"]+"<img class='profesionalStick' src='img/profesionalStick.png'></div></li>");
                         });
                         $("#slide-out").append("<li><div class='center-align' id='tituloUsuariosConectados'>Usuarios conectados</div></li>");
                         $.each(conectados["usuariosConectadosTotal"],function(clave,valor) {
