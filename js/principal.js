@@ -1,4 +1,6 @@
 $(function() {
+    $(".modal").modal();
+
     function bajarScroll() {
         var altoMain=document.getElementsByTagName("main")[0].scrollHeight;
         $("html, body").animate({
@@ -55,7 +57,7 @@ $(function() {
                     if(conectados["profesionalesConectados"]) {
                         $("#slide-out").append("<li><div class='center-align' id='tituloProfesionalesConectados'>Profesionales conectados</div></li>");
                         $.each(conectados["profesionalesConectados"],function(clave,valor) {
-                            $("#slide-out").append("<li><div class='center-align profesional' idProf='"+valor["dni"]+"'>"+valor["nombre"]+" "+valor["apellidos"]+"<img class='profesionalStick' src='img/profesionalStick.png'></div></li>");
+                            $("#slide-out").append("<li><div class='center-align'>"+valor["nombre"]+" "+valor["apellidos"]+"<img class='profesionalStick' src='img/profesionalStick.png'></div></li>");
                         });
                         $("#slide-out").append("<li><div class='center-align' id='tituloUsuariosConectados'>Usuarios conectados</div></li><li><div class='center-align'>No hay ningún usuario conectado</div></li>");
                     } else if(conectados["usuariosConectados"]) {
@@ -66,7 +68,7 @@ $(function() {
                     } else if(conectados["profesionalesConectadosTotal"]) {
                         $("#slide-out").append("<li><div class='center-align' id='tituloProfesionalesConectados'>Profesionales conectados</div></li>");
                         $.each(conectados["profesionalesConectadosTotal"],function(clave,valor) {
-                            $("#slide-out").append("<li><div class='center-align profesional' idProf='"+valor["dni"]+"'>"+valor["nombre"]+" "+valor["apellidos"]+"<img class='profesionalStick' src='img/profesionalStick.png'></div></li>");
+                            $("#slide-out").append("<li><div class='center-align'>"+valor["nombre"]+" "+valor["apellidos"]+"<img class='profesionalStick' src='img/profesionalStick.png'></div></li>");
                         });
                         $("#slide-out").append("<li><div class='center-align' id='tituloUsuariosConectados'>Usuarios conectados</div></li>");
                         $.each(conectados["usuariosConectadosTotal"],function(clave,valor) {
@@ -74,7 +76,6 @@ $(function() {
                         });
                     }
                 }
-                enviarPeticion();
             });
         } else {
             let nombreUsuario=$("title").text();
@@ -182,9 +183,7 @@ $(function() {
             },function(respuesta) {
                 if(respuesta=="1") {
                     $("#mensajeUsuario").val("");
-                } else {
-                    // *** INSERTAR UN MENSAJE QUE NO SEA ALERT ***
-                    alert(ERROR);
+                    actualizarChat();
                 }
             });
         } else {
@@ -197,9 +196,7 @@ $(function() {
             },function(respuesta) {
                 if(respuesta=="1") {
                     $("#mensajeUsuario").val("");
-                } else {
-                    // *** INSERTAR UN MENSAJE QUE NO SEA ALERT ***
-                    alert(ERROR);
+                    actualizarChat();
                 }
             });
         }
@@ -219,25 +216,22 @@ $(function() {
     function enviarPeticion() {
         $(".profesional").click(function() {
             let solicitado=$(this).attr("idProf");
-            if($("#dniUsuario").length>0) {
-                var solicitante=$("#dniUsuario").text();
-            } else {
-                var solicitante=$("title").text();
-            }
+            let solicitante=$("title").text();
 
             $.post("php/enviarPeticion.php",{
                 "solicitado":solicitado,
                 "solicitante":solicitante
             },function(respuesta) {
-                if(respuesta=="1") {
+                if(respuesta=="0") {
+                    Materialize.toast("Ya tienes una conversación privada abierta",3000,"",function() {
+                        Materialize.toast("Cierra la conversación actual para poder solicitar otra",3000);
+                    });
+                } else if(respuesta=="1") {
                     Materialize.toast("Petición enviada",2000,"",function() {
                         Materialize.toast("Espera a que el profesional acepte",2000);
                     });
                 } else if(respuesta=="2") {
                     Materialize.toast("Ya le has enviado una petición a este profesional, espera a que acepte",3000);
-                } else {
-                    // *** INSERTAR UN MENSAJE QUE NO SEA ALERT ***
-                    alert(ERROR);
                 }
             });
         });
@@ -258,11 +252,11 @@ $(function() {
             },function(respuesta) {
                 if(respuesta>0) {
                     if(respuesta==1) {
-                        $("#nombreUsuario .new.badge").remove();
-                        $("#nombreUsuario span.name").append("<span class='new badge' data-badge-caption='petición'>"+respuesta+"</span>");
+                        $("#peticiones-trigger").remove();
+                        $("#nombreUsuario span.name").append("<a id='peticiones-trigger' href='#modalPeticiones' class='modal-trigger'><span class='new badge' data-badge-caption='petición'>"+respuesta+"</span></a>");
                     } else {
-                        $("#nombreUsuario .new.badge").remove();
-                        $("#nombreUsuario span.name").append("<span class='new badge' data-badge-caption='peticiones'>"+respuesta+"</span>");
+                        $("#peticiones-trigger").remove();
+                        $("#nombreUsuario span.name").append("<a id='peticiones-trigger' href='#modalPeticiones' class='modal-trigger'><span class='new badge' data-badge-caption='peticiones'>"+respuesta+"</span></a>");
                     }
                     $("title").text("");
                     $("title").text(nombreUsuario+" ("+respuesta+")");
@@ -270,7 +264,7 @@ $(function() {
                     $(".badge-collapse").text(respuesta);
                 } else {
                     $("title").text(nombreUsuario);
-                    $("#nombreUsuario .new.badge").remove();
+                    $("#peticiones-trigger").remove();
                     $(".badge-collapse").remove();
                 }
             });
@@ -279,4 +273,90 @@ $(function() {
     setTimeout(function() {
         setInterval(actualizarNotificaciones,2000);
     },2000);
+
+    function actualizarPeticiones() {
+        if($("#dniUsuario").length>0) {
+            let dniProfesional=$("#dniUsuario").text();
+
+            $.post("php/actualizarPeticiones.php", {
+                "solicitado":dniProfesional
+            },function(respuesta) {
+                let peticiones=JSON.parse(respuesta);
+                if(peticiones.length==0) {
+                    $("#modalPeticiones").modal("close");
+                } else {
+                    $("#modalPeticiones ul.collection li").remove();
+                    $.each(peticiones, function(indice,valor) {
+                        if(valor['privadaActiva']=="N") {
+                            $("#modalPeticiones ul.collection").append("<li class='collection-item avatar'><img src='"+valor['imagen']+"' class='circle' alt='IMAGEN NO DISPONIBLE'><span class='title'>"+valor['solicitante']+"</span><p><span class='italic'>Fecha: </span>"+valor['fecha']+"</p><span class='secondary-content'><button class='btn-floating waves-effect waves-light green aceptarPeticion' title='Aceptar petición'><i class='material-icons'>check</i></button><button style='margin-left:.26em' class='btn-floating waves-effect waves-light red rechazarPeticion' title='Rechazar petición'><i class='material-icons'>clear</i></button></span></li>");
+                        } else {
+                            $("#modalPeticiones ul.collection").append("<li class='collection-item avatar'><img src='"+valor['imagen']+"' class='circle' alt='IMAGEN NO DISPONIBLE'><span class='title'>"+valor['solicitante']+"</span><p><span class='italic'>Fecha: </span>"+valor['fecha']+"</p><span class='secondary-content'><button class='btn-floating waves-effect waves-light green aceptarPeticion' title='Ya tienes una conversación privada abierta' disabled><i class='material-icons'>check</i></button><button style='margin-left:.26em' class='btn-floating waves-effect waves-light red rechazarPeticion' title='Rechazar petición'><i class='material-icons'>clear</i></button></span></li>");
+                        }  
+                    });
+                    rechazarPeticion();
+                    aceptarPeticion();
+                }
+            });
+        }
+    }
+
+    setTimeout(function() {
+        setInterval(actualizarPeticiones,2000);
+    },2000);
+
+    function rechazarPeticion() {
+        $(".rechazarPeticion").click(function() {
+            let solicitado=$("#dniUsuario").text();
+            let solicitante=$(this).parent().parent().children(".title").text();
+
+            $.post("php/rechazarPeticion.php", {
+                "solicitado":solicitado,
+                "solicitante":solicitante
+            },function(respuesta) {
+                if(respuesta=="1") {
+                    Materialize.toast("Petición rechazada",2000);
+                    actualizarPeticiones();
+                    actualizarNotificaciones();
+                }
+            });
+        })
+    }
+    rechazarPeticion();
+
+    function aceptarPeticion() {
+        $(".aceptarPeticion").click(function() {
+            let solicitado=$("#dniUsuario").text();
+            let solicitante=$(this).parent().parent().children(".title").text();
+
+            $.post("php/aceptarPeticion.php", {
+                "solicitado":solicitado,
+                "solicitante":solicitante
+            },function(respuesta) {
+                if(respuesta=="0") {
+                    Materialize.toast("La usuaria no está conectada en este momento",3000);
+                } else {
+                    actualizarPeticiones();
+                    actualizarNotificaciones();
+                    window.location.href="privado.php";
+                }
+            });
+        });
+    }
+    aceptarPeticion();
+
+    function comprobarChatPrivado() {
+        if($("#dniUsuario").length==0) {
+            let solicitante=$("title").text();
+
+            $.post("php/comprobarChatPrivado.php",{
+                "solicitante":solicitante
+            },function(respuesta) {
+                if(respuesta=="1") {
+                    window.location.href="privado.php";
+                }
+            });
+        }
+    }
+    setInterval(comprobarChatPrivado,2000);
+
 });

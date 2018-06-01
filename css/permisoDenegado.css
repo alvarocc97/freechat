@@ -1,0 +1,55 @@
+.container {
+    margin-top: 10em;
+    color:rgb(160, 43, 170);
+}
+
+.simbolo i {
+    font-size: 20em;
+}
+
+.titulo {
+    font-weight: 100;
+    font-size: 5em;
+}
+
+.descripcion {
+    font-size: 1.5em;
+    font-style: italic;
+}
+
+@media screen and (max-width:800px) {
+    .container {
+        margin-top: 20em;
+    }
+
+    .simbolo i {
+        font-size: 12em;
+    }
+
+    .titulo {
+        font-size: 3em;
+    }
+
+    .descripcion {
+        font-size: 1em;
+    }
+}
+
+@media screen and (max-width:450px) {
+    .container {
+        margin-top: 10em;
+    }
+    .simbolo i {
+        font-size: 8em;
+    }
+
+    .titulo {
+        font-size: 1.8em;
+    }
+
+    .descripcion {
+        font-size: .8em;
+    }
+}
+
+

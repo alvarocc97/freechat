@@ -98,9 +98,10 @@
                         $resultado=$conexion->query($sql);
                         $resultadoFilas=$resultado->num_rows;
                         if($resultadoFilas==0) {
+                            $usuarioReg=str_replace("=","",$usuarioReg);
                             $semilla="fth34bP1Qx";
                             $claveHash=sha1(md5($semilla.$claveReg));
-                            $sql="INSERT INTO usuarios (nombre,clave,imagen,conectado) VALUES ('$usuarioReg','$claveHash','img/fondoUsuario.jpg','N')";
+                            $sql="INSERT INTO usuarios (nombre,clave,imagen,conectado,privadaActiva) VALUES ('$usuarioReg','$claveHash','img/fondoUsuario.jpg','N','N')";
                             $conexion->query($sql);
                             ?>
                             <div id="dialogoRegistroCorrecto" title="Bienvenida">

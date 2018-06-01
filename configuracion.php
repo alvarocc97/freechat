@@ -22,6 +22,9 @@
 <body>
     <?php
         session_start();
+        if(!isset($_SESSION["dniProfesional"]) && !isset($_SESSION["nombreUsuario"])) {
+            header("Location: permisoDenegado.html");
+        }
         $nombreUsuario=$_SESSION["nombreUsuario"];
         require "php/conexion.php";
         $resultadoImagen=$conexion->query("SELECT * FROM usuarios WHERE nombre='$nombreUsuario'");

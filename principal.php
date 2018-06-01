@@ -19,6 +19,9 @@
     <meta name="theme-color" content="#ffffff">
     <?php
         session_start();
+        if(!isset($_SESSION["dniProfesional"]) && !isset($_SESSION["nombreUsuario"])) {
+            header("Location: permisoDenegado.html");
+        }
         if(isset($_SESSION["dniProfesional"])) {
             $dniCod=base64_encode($_SESSION["dniProfesional"]);
             require "php/conexion.php";
@@ -28,7 +31,8 @@
             $dniUsuario=$fila[2];
             $imagenUsuario=$fila[3];
 
-            $resultadoNotificaciones=$conexion->query("SELECT * FROM peticiones WHERE solicitado='$dniUsuario'");
+            require "php/limpiarPeticionesZombies.php";
+            $resultadoNotificaciones=$conexion->query("SELECT * FROM peticiones WHERE solicitado='$dniUsuario' ORDER BY fecha DESC");
             $resultadoNotificacionesNum=$resultadoNotificaciones->num_rows;
             $conexion->close();
 
@@ -41,6 +45,7 @@
                 <title><?php echo $nombreUsuario; ?></title>
                 <?php
             }
+            require "php/modalPeticiones.php";            
         } else {
             $nombreUsuario=$_SESSION["nombreUsuario"];
             require "php/conexion.php";
@@ -66,11 +71,11 @@
                     if($resultadoNotificacionesNum>0) {
                         if($resultadoNotificacionesNum==1) {
                             ?>
-                            <a href="#" id="nombreUsuario"><span class="white-text name"><?php echo $nombreUsuario; ?><img class="profesionalStick" src="img/profesionalStick.png"><span class="new badge" data-badge-caption="petición"><?php echo $resultadoNotificacionesNum; ?></span></span></a>
+                            <a href="#" id="nombreUsuario"><span class="white-text name"><?php echo $nombreUsuario; ?><img class="profesionalStick" src="img/profesionalStick.png"><a id="peticiones-trigger" href="#modalPeticiones" class="modal-trigger"><span class="new badge" data-badge-caption="petición"><?php echo $resultadoNotificacionesNum; ?></span></a></span></a>
                             <?php 
                         } else {
                             ?>
-                            <a href="#" id="nombreUsuario"><span class="white-text name"><?php echo $nombreUsuario; ?><img class="profesionalStick" src="img/profesionalStick.png"><span class="new badge" data-badge-caption="peticiones"><?php echo $resultadoNotificacionesNum; ?></span></span></a>
+                            <a href="#" id="nombreUsuario"><span class="white-text name"><?php echo $nombreUsuario; ?><img class="profesionalStick" src="img/profesionalStick.png"><a id="peticiones-trigger" href="#modalPeticiones" class="modal-trigger"><span class="new badge" data-badge-caption="peticiones"><?php echo $resultadoNotificacionesNum; ?></span></a></span></a>
                             <?php   
                         }
                     } else {
@@ -103,9 +108,15 @@
                 <?php
             } else {
                 while($nombreApellidosDni=$resultadoProfesionalesConectados->fetch_row()) {
-                    ?>
-                    <li><div class="center-align profesional" idProf="<?php echo $nombreApellidosDni[2]; ?>"><?php echo $nombreApellidosDni[0]." ".$nombreApellidosDni[1]; ?><img class="profesionalStick" src="img/profesionalStick.png"></div></li>
-                    <?php 
+                    if(isset($_SESSION["dniProfesional"])) {
+                        ?>
+                        <li><div class="center-align"><?php echo $nombreApellidosDni[0]." ".$nombreApellidosDni[1]; ?><img class="profesionalStick" src="img/profesionalStick.png"></div></li>
+                        <?php 
+                    } else {
+                        ?>
+                        <li><div class="center-align profesional" idProf="<?php echo $nombreApellidosDni[2]; ?>"><?php echo $nombreApellidosDni[0]." ".$nombreApellidosDni[1]; ?><img class="profesionalStick" src="img/profesionalStick.png"></div></li>
+                        <?php 
+                    }
                 }
             }
             ?><li><div class="center-align" id="tituloUsuariosConectados">Usuarios conectados</div></li><?php
