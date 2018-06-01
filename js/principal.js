@@ -232,6 +232,8 @@ $(function() {
                     });
                 } else if(respuesta=="2") {
                     Materialize.toast("Ya le has enviado una petición a este profesional, espera a que acepte",3000);
+                } else if(respuesta=="3") {
+                    Materialize.toast("Ya has enviado una petición a un profesional, espera a que acepte",3000);
                 }
             });
         });
