@@ -44,6 +44,17 @@
         <div class="col s12">
             <a id="flechaVolver" href="principal.php" class="waves-effect waves-light waves-purple btn-flat"><i class="material-icons">arrow_back</i></a>
             <span id="confTitulo">Configuración</span>
+            <?php
+                if(isset($_SESSION["dniProfesional"])) {
+                    ?>
+                    <span class="hide" id="profesionalOculto"><?php echo $dniCod; ?></span>
+                    <?php
+                } else {
+                    ?>
+                    <span class="hide" id="usuarioOculto"><?php echo $nombreUsuario; ?></span>
+                    <?php
+                }
+            ?>
         </div>
     </header>
     <main>
@@ -126,7 +137,7 @@
                     </div>
                     <div class="row eliminarCuentaCont">
                         <div class="col s12 center-align">
-                            <button class="waves-effect waves-teal btn-flat" id="eliminarCuenta">Eliminar cuenta</button>
+                            <button class="waves-effect waves-teal btn-flat modal-trigger" data-target="dialogoEliminarCuenta" id="eliminarCuenta">Eliminar cuenta</button>
                         </div>
                     </div>
                     <div class="row">
@@ -157,5 +168,16 @@
             </div>
         </div>
     </main>
+
+    <div id="dialogoEliminarCuenta" class="modal">
+        <div class="modal-content">
+            <h4>¿Seguro?</h4>
+            <p>Estás a punto de eliminar tu cuenta de FreeChat, este procedimiento es irreversible.</p>
+        </div>
+        <div class="modal-footer">
+            <button class="modal-action modal-eliminar waves-effect waves-dialogo btn-flat">ELIMINAR CUENTA</button>
+            <button class="modal-action modal-close waves-effect waves-dialogo btn-flat">CANCELAR</button>
+        </div>
+    </div>
 </body>
 </html>

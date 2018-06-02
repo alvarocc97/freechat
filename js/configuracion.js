@@ -30,4 +30,30 @@ $(function() {
         firstDay: true,
         format: 'yyyy-mm-dd'
     });
+
+    $("#dialogoEliminarCuenta").modal();
+
+    $(".modal-eliminar").click(function() {
+        if($("#dniProf").length>0) {
+            let dniProfesional=$("#profesionalOculto").text();
+
+            $.post("php/eliminarCuenta.php",{
+                "dniProfesional":dniProfesional
+            },function(respuesta) {
+                if(respuesta=="1") {
+                    window.location.href="index.php";
+                }
+            });
+        } else {
+            let nombreUsuario=$("#usuarioOculto").text();
+
+            $.post("php/eliminarCuenta.php",{
+                "nombreUsuario":nombreUsuario
+            },function(respuesta) {
+                if(respuesta=="1") {
+                    window.location.href="index.php";
+                }
+            });
+        }
+    });
 });
