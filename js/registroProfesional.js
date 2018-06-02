@@ -19,8 +19,8 @@ $(function() {
         weekdaysLetter: [ 'D', 'L', 'M', 'X', 'J', 'V', 'S' ],
         firstDay: true,
         format: 'yyyy-mm-dd'
-      });
+    });
 
-      $("#dialogoClavesIncorrectas,#dialogoCaptchaIncorrecto,#dialogoFormatoDNIIncorrecto,#dialogoDNIIncorrecto,#dialogoEmailIncorrecto,#dialogoProfesionalExistente,#dialogoProfesionalRegistrado").modal();
-      $("#disparador1,#disparador2,#disparador3,#disparador4,#disparador5,#disparador6,#disparador7").hide().click();
+    $("#dialogoClavesIncorrectas,#dialogoCaptchaIncorrecto,#dialogoFormatoDNIIncorrecto,#dialogoDNIIncorrecto,#dialogoEmailIncorrecto,#dialogoProfesionalExistente,#dialogoProfesionalRegistrado").modal();
+    $("#disparador1,#disparador2,#disparador3,#disparador4,#disparador5,#disparador6,#disparador7").hide().click();
 });

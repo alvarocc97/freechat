@@ -117,7 +117,7 @@
                                     $semilla="fth34bP1Qx";
                                     $claveHash=sha1(md5($semilla.$clave));
                                     $dniCodificado=base64_encode($dni);
-                                    $sql="INSERT INTO profesionales (dni,nombre,apellidos,email,clave,fechaNacimiento,colegioPsico,imagen,conectado,privadaActiva) VALUES ('$dniCodificado','$nombre','$apellidos','$email','$claveHash','$fechaNacimiento','$colegioPsico','img/fondoUsuario.jpg','N','N')";
+                                    $sql="INSERT INTO profesionales (dni,nombre,apellidos,email,clave,fechaNacimiento,colegioPsico,imagen,conectado,privadaActiva) VALUES ('$dniCodificado','$nombre','$apellidos','$email','$claveHash','$fechaNacimiento','$colegioPsico','img/imagenes-perfil/fondoUsuario.jpg','N','N')";
                                     $conexion->query($sql);
                                     $conexion->close();
                                     ?>
