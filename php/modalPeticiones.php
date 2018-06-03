@@ -13,7 +13,6 @@
 
                     $resultadoImagen=$conexion->query("SELECT imagen FROM usuarios WHERE nombre='$solicitante'");
                     $resultadoImagen=$resultadoImagen->fetch_row();
-                    $conexion->close();
 
                     ?>
                     <li class="collection-item avatar">
@@ -38,6 +37,7 @@
                     </li>
                     <?php
                 }
+                $conexion->close();
             ?>
         </ul>
     </div>

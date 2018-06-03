@@ -110,7 +110,7 @@ input[type=text]:not(.browser-default):focus:not([readonly]) {
   }
 }
 
-#noMensajes {
+#noMensajes, #chatSilenciado {
   display:inline-block;
   color:white;
   font-size:3em;
@@ -118,6 +118,12 @@ input[type=text]:not(.browser-default):focus:not([readonly]) {
   background-color:rgba(215, 130, 255, 0.678);
   padding-left:2em;
   padding-right:2em;
+}
+
+#chatSilenciado .material-icons {
+  font-size:1em;
+  margin-right: 1em;
+  vertical-align: middle;
 }
 
 header {
@@ -190,5 +196,10 @@ header {
 #modalPeticiones p .italic {
   font-style: italic;
   color: rgb(160, 43, 170);
+}
+
+#nombreUsuario i {
+  vertical-align: middle;
+  margin-left: .5em;
 }
  

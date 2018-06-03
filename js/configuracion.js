@@ -1,11 +1,11 @@
 $(function() {
-    $("#claveProf").keyup(function(e) {
+    $("#claveProf,#claveUsuario").keyup(function(e) {
         if($(this).val().length==0) {
-            $("#clave2Prof").attr("disabled",true);
-            $("#clave2Prof").removeAttr("required");
+            $("#clave2Prof,#clave2Usuario").attr("disabled",true);
+            $("#clave2Prof,#clave2Usuario").removeAttr("required");
         } else {
-            $("#clave2Prof").removeAttr("disabled");
-            $("#clave2Prof").attr("required",true);
+            $("#clave2Prof,#clave2Usuario").removeAttr("disabled");
+            $("#clave2Prof,#clave2Usuario").attr("required",true);
         }
     });
 
@@ -54,6 +54,157 @@ $(function() {
                     window.location.href="index.php";
                 }
             });
+        }
+    });
+
+    function comprobarSwitches() {
+        if($("#dniProf").length>0) {
+            let dniProfesional=$("#profesionalOculto").text();
+
+            $.post("php/comprobarSwitches.php",{
+                "dniProfesional":dniProfesional
+            },function(respuesta) {
+                switch(respuesta) {
+                    case "0":
+                        $("#silenciarSwitch").removeProp("checked");
+                        $("#ocultarSwitch").removeProp("checked");
+                    break;
+                    case "1":
+                        $("#silenciarSwitch").removeProp("checked");
+                        $("#ocultarSwitch").prop("checked",true); 
+                    break;
+                    case "2":
+                        $("#silenciarSwitch").prop("checked",true);
+                        $("#ocultarSwitch").removeProp("checked"); 
+                    break;
+                    case "3":
+                        $("#silenciarSwitch").prop("checked",true);
+                        $("#ocultarSwitch").prop("checked",true); 
+                    break;
+                }
+            });
+        } else {
+            let nombreUsuario=$("#usuarioOculto").text();
+
+            $.post("php/comprobarSwitches.php",{
+                "nombreUsuario":nombreUsuario
+            },function(respuesta) {
+                switch(respuesta) {
+                    case "0":
+                        $("#silenciarSwitch").removeProp("checked");
+                        $("#ocultarSwitch").removeProp("checked");
+                    break;
+                    case "1":
+                        $("#silenciarSwitch").removeProp("checked");
+                        $("#ocultarSwitch").prop("checked",true); 
+                    break;
+                    case "2":
+                        $("#silenciarSwitch").prop("checked",true);
+                        $("#ocultarSwitch").removeProp("checked"); 
+                    break;
+                    case "3":
+                        $("#silenciarSwitch").prop("checked",true);
+                        $("#ocultarSwitch").prop("checked",true); 
+                    break;
+                }
+            });
+        }
+    }
+    comprobarSwitches();
+
+    $("#silenciarSwitch").change(function() {
+        if($("#silenciarSwitch").prop("checked")) {
+            if($("#dniProf").length>0) {
+                let dniProfesional=$("#profesionalOculto").text();
+
+                $.post("php/activarSilenciado.php",{
+                    "dniProfesional":dniProfesional
+                },function(respuesta) {
+                    if(respuesta=="1") {
+                       Materialize.toast("Chat silenciado",2000);
+                    } 
+                });
+            } else {
+                let nombreUsuario=$("#usuarioOculto").text();
+
+                $.post("php/activarSilenciado.php",{
+                    "nombreUsuario":nombreUsuario
+                },function(respuesta) {
+                    if(respuesta=="1") {
+                        Materialize.toast("Chat silenciado",2000);
+                    } 
+                });
+            }
+        } else {
+            if($("#dniProf").length>0) {
+                let dniProfesional=$("#profesionalOculto").text();
+
+                $.post("php/desactivarSilenciado.php",{
+                    "dniProfesional":dniProfesional
+                },function(respuesta) {
+                    if(respuesta=="1") {
+                        Materialize.toast("Vuelves a recibir mensajes",2000);
+                    } 
+                });
+            } else {
+                let nombreUsuario=$("#usuarioOculto").text();
+
+                $.post("php/desactivarSilenciado.php",{
+                    "nombreUsuario":nombreUsuario
+                },function(respuesta) {
+                    if(respuesta=="1") {
+                        Materialize.toast("Vuelves a recibir mensajes",2000);
+                    } 
+                });
+            }
+        }
+    });
+
+    $("#ocultarSwitch").change(function() {
+        if($("#ocultarSwitch").prop("checked")) {
+            if($("#dniProf").length>0) {
+                let dniProfesional=$("#profesionalOculto").text();
+
+                $.post("php/activarOculto.php",{
+                    "dniProfesional":dniProfesional
+                },function(respuesta) {
+                    if(respuesta=="1") {
+                       Materialize.toast("Ahora estás oculto para el resto de usuarios",2000);
+                    } 
+                });
+            } else {
+                let nombreUsuario=$("#usuarioOculto").text();
+
+                $.post("php/activarOculto.php",{
+                    "nombreUsuario":nombreUsuario
+                },function(respuesta) {
+                    if(respuesta=="1") {
+                        Materialize.toast("Ahora estás oculto para el resto de usuarios",2000);
+                    } 
+                });
+            }
+        } else {
+            if($("#dniProf").length>0) {
+                let dniProfesional=$("#profesionalOculto").text();
+
+                $.post("php/desactivarOculto.php",{
+                    "dniProfesional":dniProfesional
+                },function(respuesta) {
+                    if(respuesta=="1") {
+                        Materialize.toast("Vuelves a ser visible para el resto de usuarios",2000);
+                    } 
+                });
+            } else {
+                let nombreUsuario=$("#usuarioOculto").text();
+
+                $.post("php/desactivarOculto.php",{
+                    "nombreUsuario":nombreUsuario
+                },function(respuesta) {
+                    if(respuesta=="1") {
+                        Materialize.toast("Vuelves a ser visible para el resto de usuarios",2000);
+                    } 
+                });
+            }
         }
     });
 });

@@ -3,10 +3,10 @@
         $totalConectados=array();
         $nombreUsuario=$_REQUEST["nombreUsuario"];
         require "conexion.php";
-        $resultadoProfesionalesConectados=$conexion->query("SELECT nombre,apellidos,dni FROM profesionales WHERE conectado='S'");
+        $resultadoProfesionalesConectados=$conexion->query("SELECT nombre,apellidos,dni FROM profesionales WHERE conectado='S' AND oculto='N'");
         $resultadoProfesionalesConectadosFilas=$resultadoProfesionalesConectados->num_rows;
         if($resultadoProfesionalesConectadosFilas==0) {
-            $resultadoUsuariosConectados=$conexion->query("SELECT nombre FROM usuarios WHERE conectado='S' AND nombre!='$nombreUsuario'");
+            $resultadoUsuariosConectados=$conexion->query("SELECT nombre FROM usuarios WHERE conectado='S' AND oculto='N' AND nombre!='$nombreUsuario'");
             $resultadoUsuariosConectadosFilas=$resultadoUsuariosConectados->num_rows;
             if($resultadoUsuariosConectadosFilas==0) {
                 echo "0";
@@ -18,7 +18,7 @@
         } else {
             $profesionalesConectados=$resultadoProfesionalesConectados->fetch_all(MYSQLI_ASSOC);
             
-            $resultadoUsuariosConectados=$conexion->query("SELECT nombre FROM usuarios WHERE conectado='S' AND nombre!='$nombreUsuario'");
+            $resultadoUsuariosConectados=$conexion->query("SELECT nombre FROM usuarios WHERE conectado='S' AND oculto='N' AND nombre!='$nombreUsuario'");
             $resultadoUsuariosConectadosFilas=$resultadoUsuariosConectados->num_rows;
             if($resultadoUsuariosConectadosFilas==0) {
                 $totalConectados["profesionalesConectados"]=$profesionalesConectados;
@@ -35,10 +35,10 @@
         $dniUsuario=$_REQUEST["dniUsuario"];
         $dniCod=base64_encode($dniUsuario);
         require "conexion.php";
-        $resultadoProfesionalesConectados=$conexion->query("SELECT nombre,apellidos,dni FROM profesionales WHERE conectado='S' AND dni!='$dniCod'");
+        $resultadoProfesionalesConectados=$conexion->query("SELECT nombre,apellidos,dni FROM profesionales WHERE conectado='S' AND oculto='N' AND dni!='$dniCod'");
         $resultadoProfesionalesConectadosFilas=$resultadoProfesionalesConectados->num_rows;
         if($resultadoProfesionalesConectadosFilas==0) {
-            $resultadoUsuariosConectados=$conexion->query("SELECT nombre FROM usuarios WHERE conectado='S'");
+            $resultadoUsuariosConectados=$conexion->query("SELECT nombre FROM usuarios WHERE conectado='S' AND oculto='N'");
             $resultadoUsuariosConectadosFilas=$resultadoUsuariosConectados->num_rows;
             if($resultadoUsuariosConectadosFilas==0) {
                 echo "0";
@@ -50,7 +50,7 @@
         } else {
             $profesionalesConectados=$resultadoProfesionalesConectados->fetch_all(MYSQLI_ASSOC);
             
-            $resultadoUsuariosConectados=$conexion->query("SELECT nombre FROM usuarios WHERE conectado='S'");
+            $resultadoUsuariosConectados=$conexion->query("SELECT nombre FROM usuarios WHERE conectado='S' AND oculto='N'");
             $resultadoUsuariosConectadosFilas=$resultadoUsuariosConectados->num_rows;
             if($resultadoUsuariosConectadosFilas==0) {
                 $totalConectados["profesionalesConectados"]=$profesionalesConectados;

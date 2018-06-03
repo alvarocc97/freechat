@@ -1,9 +1,17 @@
 <?php
-     $resultadoPeticionesZombies=$conexion->query("SELECT solicitante FROM peticiones WHERE solicitante NOT IN (SELECT nombre FROM usuarios)");
-     $resultadoPeticionesZombiesNum=$resultadoPeticionesZombies->num_rows;
-     if($resultadoPeticionesZombiesNum>0) {
-         while($resultadoPeticionesZombiesFila=$resultadoPeticionesZombies->fetch_row()) {
-             $conexion->query("DELETE FROM peticiones WHERE solicitante='$resultadoPeticionesZombiesFila[0]'");
-         }
-     }
+    $resultadoPeticionesZombiesUsuarios=$conexion->query("SELECT solicitante FROM peticiones WHERE solicitante NOT IN (SELECT nombre FROM usuarios)");
+    $resultadoPeticionesZombiesUsuariosNum=$resultadoPeticionesZombiesUsuarios->num_rows;
+    if($resultadoPeticionesZombiesUsuariosNum>0) {
+        while($resultadoPeticionesZombiesUsuariosFila=$resultadoPeticionesZombiesUsuarios->fetch_row()) {
+            $conexion->query("DELETE FROM peticiones WHERE solicitante='$resultadoPeticionesZombiesUsuariosFila[0]'");
+        }
+    }
+
+    $resultadoPeticionesZombiesProfesionales=$conexion->query("SELECT solicitado FROM peticiones WHERE solicitado NOT IN (SELECT dni FROM profesionales)");
+    $resultadoPeticionesZombiesProfesionalesNum=$resultadoPeticionesZombiesProfesionales->num_rows;
+    if($resultadoPeticionesZombiesProfesionalesNum>0) {
+        while($resultadoPeticionesZombiesProfesionalesFila=$resultadoPeticionesZombiesProfesionales->fetch_row()) {
+            $conexion->query("DELETE FROM peticiones WHERE solicitado='$resultadoPeticionesZombiesProfesionalesFila[0]'");
+        }
+    }
 ?>

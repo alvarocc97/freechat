@@ -123,48 +123,66 @@ $(function() {
     function actualizarChat() {
         if($("#dniUsuario").length>0) {
             let dniUsuario=$("#dniUsuario").text();
-            $.post("php/actualizarChat.php",function(respuesta) {
+            $.post("php/comprobarSilenciado.php",{
+                "dniUsuario":dniUsuario
+            },function(respuesta) {
                 if(respuesta=="0") {
-                    $("main>div>div").remove();
-                    $("main>div").append($("<div class='row'><div class='col s12 center-align'><p id='noMensajes'>No hay mensajes</p></div></div>"));
-                } else {
-                    $("main>div>div").remove();
-                    let mensajes=JSON.parse(respuesta);
-                    $.each(mensajes,function(clave,valor) {
-                        if(valor["dni"]==dniUsuario && valor["profesional"]=="S") {
-                            $("main>div").append($("<div class='row'><div class='contenedorEnviado'><div class='datosEnviado'><span>"+valor["usuario"]+"<img class='profesionalStick' src='img/profesionalStick.png'></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>"+valor["fecha"]+"</span></div><div class='mensajeEnviado'>"+valor["mensaje"]+"</div></div></div>"));
+                    $.post("php/actualizarChat.php",function(respuesta) {
+                        if(respuesta=="0") {
+                            $("main>div>div").remove();
+                            $("main>div").append($("<div class='row'><div class='col s12 center-align'><p id='noMensajes'>No hay mensajes</p></div></div>"));
                         } else {
-                            if(valor["profesional"]=="S") {
-                                $("main>div").append($("<div class='row'><div class='contenedorRecibido'><div class='datosRecibido'><span>"+valor["usuario"]+"<img class='profesionalStick' src='img/profesionalStick.png'></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>"+valor["fecha"]+"</span></div><div class='mensajeRecibido'>"+valor["mensaje"]+"</div></div></div>"));
-                            } else {
-                                $("main>div").append($("<div class='row'><div class='contenedorRecibido'><div class='datosRecibido'><span>"+valor["usuario"]+"</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>"+valor["fecha"]+"</span></div><div class='mensajeRecibido'>"+valor["mensaje"]+"</div></div></div>"));
-                            }
+                            $("main>div>div").remove();
+                            let mensajes=JSON.parse(respuesta);
+                            $.each(mensajes,function(clave,valor) {
+                                if(valor["dni"]==dniUsuario && valor["profesional"]=="S") {
+                                    $("main>div").append($("<div class='row'><div class='contenedorEnviado'><div class='datosEnviado'><span>"+valor["usuario"]+"<img class='profesionalStick' src='img/profesionalStick.png'></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>"+valor["fecha"]+"</span></div><div class='mensajeEnviado'>"+valor["mensaje"]+"</div></div></div>"));
+                                } else {
+                                    if(valor["profesional"]=="S") {
+                                        $("main>div").append($("<div class='row'><div class='contenedorRecibido'><div class='datosRecibido'><span>"+valor["usuario"]+"<img class='profesionalStick' src='img/profesionalStick.png'></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>"+valor["fecha"]+"</span></div><div class='mensajeRecibido'>"+valor["mensaje"]+"</div></div></div>"));
+                                    } else {
+                                        $("main>div").append($("<div class='row'><div class='contenedorRecibido'><div class='datosRecibido'><span>"+valor["usuario"]+"</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>"+valor["fecha"]+"</span></div><div class='mensajeRecibido'>"+valor["mensaje"]+"</div></div></div>"));
+                                    }
+                                }
+                            });
                         }
                     });
+                } else {
+                    $("main>div>div").remove();
+                    $("main>div").append($("<div class='row'><div class='col s12 center-align'><p id='chatSilenciado'><i class='material-icons'>speaker_notes_off</i>chat silenciado</p></div></div>"));  
                 }
-            });
+            })
         } else {
             let nombreUsuario=$("title").text();
-            $.post("php/actualizarChat.php",function(respuesta) {
+            $.post("php/comprobarSilenciado.php",{
+                "nombreUsuario":nombreUsuario
+            },function(respuesta) {
                 if(respuesta=="0") {
-                    $("main>div>div").remove();
-                    $("main>div").append($("<div class='row'><div class='col s12 center-align'><p id='noMensajes'>No hay mensajes</p></div></div>"));
-                } else {
-                    $("main>div>div").remove();
-                    let mensajes=JSON.parse(respuesta);
-                    $.each(mensajes,function(clave,valor) {
-                        if(valor["usuario"]==nombreUsuario && valor["profesional"]=="N") {
-                            $("main>div").append($("<div class='row'><div class='contenedorEnviado'><div class='datosEnviado'><span>"+valor["usuario"]+"</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>"+valor["fecha"]+"</span></div><div class='mensajeEnviado'>"+valor["mensaje"]+"</div></div></div>"));
+                    $.post("php/actualizarChat.php",function(respuesta) {
+                        if(respuesta=="0") {
+                            $("main>div>div").remove();
+                            $("main>div").append($("<div class='row'><div class='col s12 center-align'><p id='noMensajes'>No hay mensajes</p></div></div>"));
                         } else {
-                            if(valor["profesional"]=="S") {
-                                $("main>div").append($("<div class='row'><div class='contenedorRecibido'><div class='datosRecibido'><span>"+valor["usuario"]+"<img class='profesionalStick' src='img/profesionalStick.png'></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>"+valor["fecha"]+"</span></div><div class='mensajeRecibido'>"+valor["mensaje"]+"</div></div></div>"));
-                            } else {
-                                $("main>div").append($("<div class='row'><div class='contenedorRecibido'><div class='datosRecibido'><span>"+valor["usuario"]+"</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>"+valor["fecha"]+"</span></div><div class='mensajeRecibido'>"+valor["mensaje"]+"</div></div></div>"));
-                            }
+                            $("main>div>div").remove();
+                            let mensajes=JSON.parse(respuesta);
+                            $.each(mensajes,function(clave,valor) {
+                                if(valor["usuario"]==nombreUsuario && valor["profesional"]=="N") {
+                                    $("main>div").append($("<div class='row'><div class='contenedorEnviado'><div class='datosEnviado'><span>"+valor["usuario"]+"</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>"+valor["fecha"]+"</span></div><div class='mensajeEnviado'>"+valor["mensaje"]+"</div></div></div>"));
+                                } else {
+                                    if(valor["profesional"]=="S") {
+                                        $("main>div").append($("<div class='row'><div class='contenedorRecibido'><div class='datosRecibido'><span>"+valor["usuario"]+"<img class='profesionalStick' src='img/profesionalStick.png'></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>"+valor["fecha"]+"</span></div><div class='mensajeRecibido'>"+valor["mensaje"]+"</div></div></div>"));
+                                    } else {
+                                        $("main>div").append($("<div class='row'><div class='contenedorRecibido'><div class='datosRecibido'><span>"+valor["usuario"]+"</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>"+valor["fecha"]+"</span></div><div class='mensajeRecibido'>"+valor["mensaje"]+"</div></div></div>"));
+                                    }
+                                }
+                            });
                         }
                     });
+                } else {
+                    $("main>div>div").remove();
+                    $("main>div").append($("<div class='row'><div class='col s12 center-align'><p id='chatSilenciado'><i class='material-icons'>speaker_notes_off</i>chat silenciado</p></div></div>"));
                 }
-            });
+            })
         }
     }
 
@@ -244,7 +262,7 @@ $(function() {
         if($("#dniUsuario").length>0) {
             let dniProfesional=$("#dniUsuario").text();
             let elementoClonado=$("#nombreUsuario").clone();
-            let elementoABorrar=elementoClonado.find(".new.badge");
+            let elementoABorrar=elementoClonado.find(".new.badge,i");
             elementoABorrar.remove();
             let nombreUsuario=elementoClonado.text();
             let peticionesAnteriores=$(".badge-collapse").text();
@@ -252,18 +270,31 @@ $(function() {
             $.post("php/actualizarNotificaciones.php",{
                 "dniProfesional":dniProfesional
             },function(respuesta) {
-                if(respuesta>0) {
-                    if(respuesta==1) {
-                        $("#peticiones-trigger").remove();
-                        $("#nombreUsuario span.name").append("<a id='peticiones-trigger' href='#modalPeticiones' class='modal-trigger'><span class='new badge' data-badge-caption='petición'>"+respuesta+"</span></a>");
+                let respuestaNotificaciones=JSON.parse(respuesta);
+                if(respuestaNotificaciones[0]>0) {
+                    if(respuestaNotificaciones[0]==1) {
+                        if(respuestaNotificaciones[1]=="N") {
+                            $("#peticiones-trigger").remove();
+                            $("#nombreUsuario span.name").append("<a id='peticiones-trigger' href='#modalPeticiones' class='modal-trigger'><span class='new badge' data-badge-caption='petición'>"+respuestaNotificaciones[0]+"</span></a>");
+                        } else {
+                            console.log($("#nombreUsuario i"));
+                            $("#peticiones-trigger,#nombreUsuario i").remove();
+                            $("#nombreUsuario span.name").append("<i class='material-icons' title='Permaneces oculto para el resto de usuarios'>visibility_off</i><a id='peticiones-trigger' href='#modalPeticiones' class='modal-trigger'><span class='new badge' data-badge-caption='petición'>"+respuestaNotificaciones[0]+"</span></a>");
+                        }
                     } else {
-                        $("#peticiones-trigger").remove();
-                        $("#nombreUsuario span.name").append("<a id='peticiones-trigger' href='#modalPeticiones' class='modal-trigger'><span class='new badge' data-badge-caption='peticiones'>"+respuesta+"</span></a>");
+                        if(respuestaNotificaciones[1]=="N") {
+                            $("#peticiones-trigger").remove();
+                            $("#nombreUsuario span.name").append("<a id='peticiones-trigger' href='#modalPeticiones' class='modal-trigger'><span class='new badge' data-badge-caption='peticiones'>"+respuestaNotificaciones[0]+"</span></a>");
+                        } else {
+                            $("#peticiones-trigger,#nombreUsuario i").remove();
+                            $("#nombreUsuario span.name").append("<i class='material-icons' title='Permaneces oculto para el resto de usuarios'>visibility_off</i><a id='peticiones-trigger' href='#modalPeticiones' class='modal-trigger'><span class='new badge' data-badge-caption='peticiones'>"+respuestaNotificaciones[0]+"</span></a>");
+                        }
+                        
                     }
                     $("title").text("");
-                    $("title").text(nombreUsuario+" ("+respuesta+")");
+                    $("title").text(nombreUsuario+" ("+respuestaNotificaciones[0]+")");
                     $(".badge-collapse").text("");
-                    $(".badge-collapse").text(respuesta);
+                    $(".badge-collapse").text(respuestaNotificaciones[0]);
                 } else {
                     $("title").text(nombreUsuario);
                     $("#peticiones-trigger").remove();
