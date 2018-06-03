@@ -1,3 +1,9 @@
+@media print {
+  * {
+      display: none;
+  }
+}
+
 html {
   min-height:100vh;
   max-height:100vh;
@@ -15,7 +21,20 @@ main {
       padding-left: 0;
     }
 }
+#slide-out {
+  z-index: 1000;
+}
 
+.button-collapse i {
+  padding: .05em;
+  background-color: rgb(160, 43, 170);
+  color: #fff;
+  box-shadow: 0px 1px 5px rgb(0,0,0);
+  z-index: 999;
+}
+#nombreUsuario .usuarioName {
+  padding-bottom: 1em;
+}
 #tituloUsuariosConectados,#tituloProfesionalesConectados {
   font-style:italic;
 }
@@ -59,7 +78,11 @@ input[type=text]:not(.browser-default):focus:not([readonly]) {
 #botonEnviarCont {
   margin-top:2em;
 }
-
+@media screen and (max-width:400px) {
+  #botonEnviar {
+    padding: 0;
+  }
+}
 .btn-flat {
   color:rgb(160, 43, 170);
 }
@@ -89,6 +112,7 @@ input[type=text]:not(.browser-default):focus:not([readonly]) {
   color:white;
   box-shadow:0em .2em .2em rgb(95, 95, 95);
   float: right;
+  max-width: 100%;
 }
 
 .contenedorRecibido {
@@ -97,17 +121,15 @@ input[type=text]:not(.browser-default):focus:not([readonly]) {
   background-color: rgb(185, 185, 185);
   color:white;
   box-shadow:0em .2em .2em rgb(95, 95, 95);
+  max-width: 100%;
 }
 
 .mensajeRecibido, .mensajeEnviado {
   font-size:1.5em;
   margin-top:.5em;
-}
-
-@media screen and (max-width:400px) {
-  .contenedorEnviado, .contenedorRecibido {
-    transform:scale(0.8)!important;
-  }
+  font-weight: 100;
+  word-break: keep-all;
+  overflow-x: scroll;
 }
 
 #noMensajes, #chatSilenciado {

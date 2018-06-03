@@ -32,7 +32,9 @@ input[type=email]:not(.browser-default):focus:not([readonly]) {
     -webkit-box-shadow: 0 1px 0 0 rgb(160, 43, 170);
             box-shadow: 0 1px 0 0 rgb(160, 43, 170);
 }
-
+.input-field .prefix.active {
+    color: rgb(160, 43, 170);
+}
 .picker__date-display {
     background-color:rgb(222, 176, 253);
 }

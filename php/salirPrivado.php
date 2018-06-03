@@ -15,7 +15,7 @@
         bottom:4.2em;
         right:2em;
     }
-    #salir {
+    #cerrarPrivado {
         background-color:rgb(160, 43, 170);
     }
     .tap-target {

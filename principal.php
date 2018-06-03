@@ -117,11 +117,11 @@
                 } else {
                     if($resultadoSilenciadoOculto[1]=="N") {
                         ?>
-                        <a href="#" id="nombreUsuario"><span class="white-text name"><?php echo $nombreUsuario; ?></span></a>
+                        <a href="#" id="nombreUsuario"><span class="white-text name usuarioName"><?php echo $nombreUsuario; ?></span></a>
                         <?php
                     } else {
                         ?>
-                        <a href="#" id="nombreUsuario"><span class="white-text name"><?php echo $nombreUsuario; ?><i class="material-icons" title="Permaneces oculto para el resto de usuarios">visibility_off</i></span></a>
+                        <a href="#" id="nombreUsuario"><span class="white-text name usuarioName"><?php echo $nombreUsuario; ?><i class="material-icons" title="Permaneces oculto para el resto de usuarios">visibility_off</i></span></a>
                         <?php
                     } 
                 }

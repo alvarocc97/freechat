@@ -121,7 +121,7 @@
                                         <legend>Imagen de perfil</legend>
                                         <div class="file-field input-field">
                                             <div class="btn">
-                                                <span>Examinar</span>
+                                                <i class="material-icons">search</i>
                                                 <input type="file" id="imagenProf" name="imagenProf" accept=".jpg, .jpeg, .png">
                                             </div>
                                             <div class="file-path-wrapper">
@@ -171,7 +171,7 @@
                                         <legend>Imagen de perfil</legend>
                                         <div class="file-field input-field">
                                             <div class="btn">
-                                                <span>Examinar</span>
+                                                <i class="material-icons">search</i>
                                                 <input type="file" id="imagenUsuario" name="imagenUsuario" accept=".jpg, .jpeg, .png">
                                             </div>
                                             <div class="file-path-wrapper">
