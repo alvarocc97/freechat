@@ -175,8 +175,8 @@ input[type=email]:not(.browser-default):focus:not([readonly]) {
 }
 
 .toast {
-    background-color: #fff;
-    color: rgb(160, 43, 170);
+    background-color: rgb(160, 43, 170);
+    color: #fff;
 }
 
 @media screen and (max-width:350px) {
