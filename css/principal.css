@@ -129,7 +129,7 @@ input[type=text]:not(.browser-default):focus:not([readonly]) {
   margin-top:.5em;
   font-weight: 100;
   word-break: keep-all;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 
 #noMensajes, #chatSilenciado {
