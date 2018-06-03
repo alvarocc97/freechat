@@ -1,0 +1,43 @@
+.container {
+    margin-top: 2em;
+}
+
+.titulo {
+    color: #9e9e9e;
+    font-size: 2em;
+    font-style: italic;
+}
+
+.simbolo-cont {
+    margin-top: 5em;
+}
+
+.simbolo {
+    color: #ff0000;
+    font-size: 20em;
+}
+
+.alerta-mensaje {
+    color: #ff0000;
+    font-size: 1.2em;
+}
+
+.alerta-mensaje-negro {
+    color: #000;
+    font-size: 1.2em;
+}
+
+.alerta-mensaje span {
+    text-transform: uppercase;
+    font-weight: 900;
+}
+
+.alerta-mensaje .italic {
+    font-style: italic;
+    font-weight: initial;
+    text-transform: initial;
+}
+
+.boton-cont {
+    margin-top: 5em;
+}

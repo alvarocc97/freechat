@@ -169,7 +169,7 @@
             }
             $conexion->close();
         ?>
-        <button id="botonConfiguracion" class="waves-effect waves-light waves-purple btn-flat btn-large"><i class="material-icons">settings</i></button>
+        <button id="botonConfiguracion" class="waves-effect waves-light waves-purple btn-flat btn-large" title="Configuración/Perfil"><i class="material-icons">settings</i></button>
     </ul>
     <?php
     if(isset($_SESSION["dniProfesional"])) {

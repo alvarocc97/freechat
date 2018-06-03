@@ -101,7 +101,7 @@
                             $usuarioReg=str_replace("=","",$usuarioReg);
                             $semilla="fth34bP1Qx";
                             $claveHash=sha1(md5($semilla.$claveReg));
-                            $sql="INSERT INTO usuarios (nombre,clave,imagen,conectado,privadaActiva,silenciado,oculto) VALUES ('$usuarioReg','$claveHash','img/imagenes-perfil/fondoUsuario.jpg','N','N','N','N')";
+                            $sql="INSERT INTO usuarios (nombre,clave,imagen,conectado,privadaActiva,silenciado,oculto) VALUES ('$usuarioReg','$claveHash','img/fondoUsuario.jpg','N','N','N','N')";
                             $conexion->query($sql);
                             ?>
                             <div id="dialogoRegistroCorrecto" title="Bienvenida">

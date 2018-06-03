@@ -110,14 +110,14 @@
                         if(calcularLetra($dni)==substr($dni,-1)) {
                             if(preg_match("/^[A-z0-9\\._-]+@[A-z0-9][A-z0-9-]*(\\.[A-z0-9_-]+)*\\.([A-z]{2,10})$/",$email)) {
                                 require "php/conexion.php";
-                                $sql="SELECT dni FROM profesionales WHERE dni='$dni'";
+                                $dniCodificado=base64_encode($dni);
+                                $sql="SELECT dni FROM profesionales WHERE dni='$dniCodificado'";
                                 $resultado=$conexion->query($sql);
                                 $resultadoFilas=$resultado->num_rows;
                                 if($resultadoFilas==0) {
                                     $semilla="fth34bP1Qx";
                                     $claveHash=sha1(md5($semilla.$clave));
-                                    $dniCodificado=base64_encode($dni);
-                                    $sql="INSERT INTO profesionales (dni,nombre,apellidos,email,clave,fechaNacimiento,colegioPsico,imagen,conectado,privadaActiva,silenciado,oculto) VALUES ('$dniCodificado','$nombre','$apellidos','$email','$claveHash','$fechaNacimiento','$colegioPsico','img/imagenes-perfil/fondoUsuario.jpg','N','N','N','N')";
+                                    $sql="INSERT INTO profesionales (dni,nombre,apellidos,email,clave,fechaNacimiento,colegioPsico,imagen,conectado,privadaActiva,silenciado,oculto) VALUES ('$dniCodificado','$nombre','$apellidos','$email','$claveHash','$fechaNacimiento','$colegioPsico','img/fondoUsuario.jpg','N','N','N','N')";
                                     $conexion->query($sql);
                                     $conexion->close();
                                     ?>
