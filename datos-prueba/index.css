@@ -41,3 +41,23 @@
 .boton-cont {
     margin-top: 5em;
 }
+
+@media screen and (max-width:550px) {
+    img {
+        width: 50%;
+    }
+
+    .simbolo {
+        font-size:15em;
+    }
+}
+
+@media screen and (max-width:380px) {
+    .titulo {
+        font-size: 1.5em;
+    }
+
+    .simbolo {
+        font-size:10em;
+    }
+}

@@ -121,6 +121,9 @@ input[type=email]:not(.browser-default):focus:not([readonly]) {
 .input-field .prefix.active {
     color: rgb(160, 43, 170);
 }
+input.file-path::placeholder {
+    color: #9e9e9e;
+}
 .switch label input[type=checkbox]:checked + .lever {
     background-color: rgb(160, 43, 170);
 }

@@ -64,7 +64,7 @@
                     <input type="password" id="claveReg2" name="claveReg2" size="20" maxlength="50" placeholder="Vuelve a introducir la clave" required title="Repite la clave para comprobar que no te has equivocado">
                     <img src="php/captcha.php" alt="CAPTCHA">
                     <input type="hidden" id="cadenaCaptchaReg" name="cadenaCaptchaReg" value=<?php echo $cadena; ?>>
-                    <input type="text" id="captchaReg" name="captchaReg" size="20" maxlength="12" placeholder="Introduce los caracteres que ves" required>
+                    <input type="text" id="captchaReg" name="captchaReg" size="20" maxlength="12" placeholder="Repite los caracteres" required>
                     <input type="submit" id="terminadoReg" name="terminadoReg" value="Terminado">
                     <a href="registroProfesional.php">¿Quieres unirte como profesional?</a>
                 </form>

@@ -33,62 +33,86 @@
 
         $_SESSION["cadenaCaptcha"]=$cadena;
     ?>
-    <div class="container">
-        <div class="row">
-            <h1 class="col s12 center-align">Regístrate como profesional</h1>
+    <header class="row white">
+    <div class="col s12">
+            <a id="flechaVolver" href="index.php" class="waves-effect waves-light waves-purple btn-flat"><i class="material-icons">arrow_back</i></a>
+            <span id="regTitulo">Regístrate como profesional</span>
         </div>
-        <div class="row" id="filaForm">
-            <form class="col s12 m6 push-m3" action="registroProfesional.php" method="post">
-                <div class="row">
-                    <div class="input-field col s12">
-                        <label for="dni">DNI</label>
-                        <input type="text" id="dni" name="dni" maxlength="10" required>
+    </header>
+    <main>
+        <div class="container">
+            <div class="row">
+                <form class="col s12 white" action="registroProfesional.php" method="post">
+                    <div class="row">
+                        <div class="input-field col s12 m6">
+                            <i class="material-icons prefix">fingerprint</i>
+                            <label for="dni">DNI</label>
+                            <input type="text" id="dni" name="dni" maxlength="10" required>
+                        </div>
+                        <div class="input-field col s12 m6">
+                            <i class="material-icons prefix">person</i>
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" name="nombre" maxlength="50" required>
+                        </div>
                     </div>
-                    <div class="input-field col s12">
-                        <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" name="nombre" maxlength="50" required>
+                    <div class="row">
+                        <div class="input-field col s12 m6">
+                            <i class="material-icons prefix">person_outline</i>
+                            <label for="apellidos">Apellidos</label>
+                            <input type="text" id="apellidos" name="apellidos" maxlength="250" required>
+                        </div>
+                        <div class="input-field col s12 m6">
+                            <i class="material-icons prefix">email</i>
+                            <label for="email">Correo electrónico</label>
+                            <input type="email" id="email" name="email" maxlength="50" required>
+                        </div>
                     </div>
-                    <div class="input-field col s12">
-                        <label for="apellidos">Apellidos</label>
-                        <input type="text" id="apellidos" name="apellidos" maxlength="250" required>
+                    <div class="row">
+                        <div class="input-field col s12 m6">
+                            <i class="material-icons prefix">lock</i>
+                            <label for="clave">Clave</label>
+                            <input type="password" id="clave" name="clave" maxlength="50" required>
+                        </div>
+                        <div class="input-field col s12 m6">
+                            <i class="material-icons prefix">enhanced_encryption</i>
+                            <label for="clave2">Vuelva a introducir la clave</label>
+                            <input type="password" id="clave2" name="clave2" maxlength="50" required>
+                        </div>
                     </div>
-                    <div class="input-field col s12">
-                        <label for="email">Correo electrónico</label>
-                        <input type="email" id="email" name="email" maxlength="50" required>
+                    <div class="row">
+                        <div class="input-field col s12 m6">
+                            <i class="material-icons prefix">event</i>
+                            <label for="fechaNacimiento">Fecha de nacimiento</label>
+                            <input type="text" id="fechaNacimiento" name="fechaNacimiento" class="datepicker" required>
+                        </div>
+                        <div class="input-field col s12 m6">
+                            <i class="material-icons prefix">school</i>
+                            <label for="colegioPsico">Colegio de psicólogos</label>
+                            <input type="text" id="colegioPsico" name="colegioPsico" maxlength="100" required>
+                        </div>
                     </div>
-                    <div class="input-field col s12">
-                        <label for="clave">Clave</label>
-                        <input type="password" id="clave" name="clave" maxlength="50" required>
+                    <div class="row">
+                        <div class="input-field col s12 m6 center-align">
+                            <img src="php/captcha.php" alt="CAPTCHA">
+                        </div>
+                        <div class="input-field col s12 m6">
+                            <i class="material-icons prefix">fiber_pin</i>
+                            <label for="captcha">Repite los caracteres</label>
+                            <input type="hidden" id="cadenaCaptcha" name="cadenaCaptcha" value=<?php echo $cadena; ?>>
+                            <input type="text" id="captcha" name="captcha" size="20" maxlength="12" required>
+                        </div>
                     </div>
-                    <div class="input-field col s12">
-                        <label for="clave2">Vuelva a introducir la clave</label>
-                        <input type="password" id="clave2" name="clave2" maxlength="50" required>
+                    <div class="row">
+                        <div class="input-field col s12 center-align">
+                            <button class="btn waves-effect waves-light" type="submit" name="action">ACEPTAR
+                                <i class="material-icons right">done</i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="input-field col s12">
-                        <label for="fechaNacimiento">Fecha de nacimiento</label>
-                        <input type="text" id="fechaNacimiento" name="fechaNacimiento" class="datepicker" required>
-                    </div>
-                    <div class="input-field col s12">
-                        <label for="colegioPsico">Colegio de psicólogos</label>
-                        <input type="text" id="colegioPsico" name="colegioPsico" maxlength="100" required>
-                    </div>
-                    <div class="input-field col s12 center-align">
-                        <img src="php/captcha.php" alt="CAPTCHA">
-                    </div>
-                    <div class="input-field col s12">
-                        <label for="captcha">Introduzca los caracteres que ves</label>
-                        <input type="hidden" id="cadenaCaptcha" name="cadenaCaptcha" value=<?php echo $cadena; ?>>
-                        <input type="text" id="captcha" name="captcha" size="20" maxlength="12" required>
-                    </div>
-                    <div class="input-field col s12 center-align">
-                    <button class="btn waves-effect waves-light" type="submit" name="action">ACEPTAR
-                        <i class="material-icons right">done</i>
-                    </button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
+    </main>
 
     <?php
         if(isset($_POST["dni"])) {
@@ -102,7 +126,6 @@
             $colegioPsico=$_POST["colegioPsico"];
             $cadenaCaptcha=$_POST["cadenaCaptcha"];
             $captcha=$_POST["captcha"];
-
             if($clave==$clave2) {
                 if($cadenaCaptcha==$captcha) {
                     if(preg_match("/^[0-9]{8}-[TRWAGMYFPDXBNJZSQVHLCKE]$/i",$dni)) {
