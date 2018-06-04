@@ -225,3 +225,10 @@ header {
   margin-left: .5em;
 }
  
+a[href="#"] {
+  cursor: default;
+}
+
+a.button-collapse {
+  cursor: pointer;
+}

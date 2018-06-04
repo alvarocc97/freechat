@@ -9,8 +9,13 @@ $(function() {
     }
     bajarScroll();
 
+    $("a[href='#']").click(function(e) {
+        e.preventDefault();
+    });
+
     $('.tap-target').tapTarget('open');
     $(".button-collapse").sideNav();
+
     $("#salir").click(function() {
         if($("#dniUsuario").length>0) {
             let dniUsuario=$("#dniUsuario").text();
@@ -19,8 +24,6 @@ $(function() {
             },function(respuesta) {
                 if(respuesta=="1") {
                     window.location.href="index.php";
-                } else {
-                    alert("ERROR");
                 }
             });
         } else {
@@ -30,8 +33,6 @@ $(function() {
             },function(respuesta) {
                 if(respuesta=="1") {
                     window.location.href="index.php";
-                } else {
-                    alert("ERROR");
                 }
             });
         }
@@ -202,6 +203,7 @@ $(function() {
                 if(respuesta=="1") {
                     $("#mensajeUsuario").val("");
                     actualizarChat();
+                    bajarScroll();
                 }
             });
         } else {
@@ -215,6 +217,7 @@ $(function() {
                 if(respuesta=="1") {
                     $("#mensajeUsuario").val("");
                     actualizarChat();
+                    bajarScroll();
                 }
             });
         }
