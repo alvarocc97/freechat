@@ -293,8 +293,8 @@ $(function() {
                     }
                     $("title").text("");
                     $("title").text(nombreUsuario+" ("+respuestaNotificaciones[0]+")");
-                    $(".badge-collapse").text("");
-                    $(".badge-collapse").text(respuestaNotificaciones[0]);
+                    $(".badge-collapse").remove();
+                    $("a.button-collapse").append("<span class='badge-collapse'>"+respuestaNotificaciones[0]+"</span>");
                 } else {
                     $("title").text(nombreUsuario);
                     $("#peticiones-trigger").remove();

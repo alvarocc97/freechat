@@ -337,3 +337,20 @@ input:focus {
         font-size: 1.8em;
     }
 }
+
+@media screen and (max-width:320px) {
+    #autenticacionForm input {
+        width: 100% !important;
+    }
+
+    #autenticacionForm input:first-child {
+        margin-bottom: 1em;
+    }
+}
+
+@media screen and (max-width:300px) {
+    #registroForm img {
+        transform: scale(.8);
+    }
+}
+
